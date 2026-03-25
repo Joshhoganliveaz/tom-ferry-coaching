@@ -73,31 +73,31 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | - | Pending |
-| DATA-02 | - | Pending |
-| DATA-03 | - | Pending |
-| DATA-04 | - | Pending |
-| DATA-05 | - | Pending |
-| CARD-01 | - | Pending |
-| CARD-02 | - | Pending |
-| CARD-03 | - | Pending |
-| CARD-04 | - | Pending |
-| CARD-05 | - | Pending |
-| NAV-01 | - | Pending |
-| NAV-02 | - | Pending |
-| NAV-03 | - | Pending |
-| VIS-01 | - | Pending |
-| VIS-02 | - | Pending |
-| VIS-03 | - | Pending |
-| DEPLOY-01 | - | Pending |
-| DEPLOY-02 | - | Pending |
-| DEPLOY-03 | - | Pending |
+| DATA-01 | Phase 1 | Pending |
+| DATA-02 | Phase 1 | Pending |
+| DATA-03 | Phase 1 | Pending |
+| DATA-04 | Phase 1 | Pending |
+| DATA-05 | Phase 1 | Pending |
+| CARD-01 | Phase 2 | Pending |
+| CARD-02 | Phase 2 | Pending |
+| CARD-03 | Phase 2 | Pending |
+| CARD-04 | Phase 2 | Pending |
+| CARD-05 | Phase 2 | Pending |
+| NAV-01 | Phase 2 | Pending |
+| NAV-02 | Phase 2 | Pending |
+| NAV-03 | Phase 2 | Pending |
+| VIS-01 | Phase 1 | Pending |
+| VIS-02 | Phase 1 | Pending |
+| VIS-03 | Phase 3 | Pending |
+| DEPLOY-01 | Phase 1 | Pending |
+| DEPLOY-02 | Phase 3 | Pending |
+| DEPLOY-03 | Phase 3 | Pending |
 
 **Coverage:**
 - v1 requirements: 19 total
-- Mapped to phases: 0
-- Unmapped: 19 (pending roadmap creation)
+- Mapped to phases: 19
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-25*
-*Last updated: 2026-03-25 after initial definition*
+*Last updated: 2026-03-25 after roadmap creation*
