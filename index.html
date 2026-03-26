@@ -649,10 +649,11 @@
     let currentFilter = 'all';
     let currentSort = 'recent';
 
-    // --- Drag and Drop State ---
+    // --- Reorder State ---
     const STORAGE_KEY = 'projectCardOrder';
     let currentOrder = null;
-    let draggedCard = null;
+    let isEditMode = false;
+    let savedFilter = 'all';
 
     // --- Constants ---
     const VALID_STATUSES = ['shipped', 'in_progress', 'parking_lot'];
@@ -1166,61 +1167,6 @@
       return true;
     }
 
-    /**
-     * Enable drag-and-drop on all project cards.
-     */
-    function enableDragAndDrop() {
-      const cards = document.querySelectorAll('.project-card');
-      cards.forEach(card => {
-        card.setAttribute('draggable', 'true');
-
-        card.addEventListener('dragstart', (e) => {
-          e.dataTransfer.effectAllowed = 'move';
-          draggedCard = card;
-          card.classList.add('dragging');
-        });
-
-        card.addEventListener('dragend', () => {
-          card.classList.remove('dragging');
-          document.querySelectorAll('.project-card.drag-over').forEach(c => c.classList.remove('drag-over'));
-          draggedCard = null;
-        });
-
-        card.addEventListener('dragover', (e) => {
-          e.preventDefault();
-          e.dataTransfer.dropEffect = 'move';
-          if (card !== draggedCard) {
-            // Remove drag-over from all other cards
-            document.querySelectorAll('.project-card.drag-over').forEach(c => c.classList.remove('drag-over'));
-            card.classList.add('drag-over');
-          }
-        });
-
-        card.addEventListener('dragleave', () => {
-          card.classList.remove('drag-over');
-        });
-
-        card.addEventListener('drop', (e) => {
-          e.preventDefault();
-          card.classList.remove('drag-over');
-          if (!draggedCard || draggedCard === card) return;
-
-          const container = document.querySelector('.project-grid');
-          if (!container) return;
-
-          // Determine drop position using vertical midpoint
-          const rect = card.getBoundingClientRect();
-          const midY = rect.top + rect.height / 2;
-          if (e.clientY < midY) {
-            container.insertBefore(draggedCard, card);
-          } else {
-            card.insertAdjacentElement('afterend', draggedCard);
-          }
-
-          saveCustomOrder();
-        });
-      });
-    }
 
     /**
      * Render the full page with summary stats and project card grid.
