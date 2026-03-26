@@ -1034,6 +1034,176 @@
         </div>`;
     }
 
+    // --- Edit Mode ---
+
+    /**
+     * Render a compact row for edit/reorder mode.
+     * @param {Object} project - The project object
+     * @param {number} index - Current position index
+     * @param {number} total - Total number of projects
+     * @returns {string} HTML string for the compact row
+     */
+    function renderCompactRow(project, index, total) {
+      const statusClass = VALID_STATUSES.includes(project?.status)
+        ? `status-${project.status}`
+        : '';
+
+      const upDisabled = index === 0 ? ' disabled' : '';
+      const downDisabled = index === total - 1 ? ' disabled' : '';
+
+      return `
+        <div class="compact-row" data-slug="${escapeHtml(project?.slug || '')}">
+          <span class="drag-handle">⠿</span>
+          <div class="compact-info">
+            <div class="compact-name-row">
+              <span class="compact-name">${escapeHtml(project?.name ?? 'Untitled')}</span>
+              <span class="status-badge ${escapeHtml(statusClass)}" style="font-size: 0.6rem; padding: 1px 6px;">${escapeHtml(formatStatus(project?.status))}</span>
+            </div>
+            <div class="compact-desc">${escapeHtml(project?.description ?? '')}</div>
+          </div>
+          <div class="arrow-buttons">
+            <button class="arrow-btn${upDisabled}" data-dir="up" title="Move up">▲</button>
+            <button class="arrow-btn${downDisabled}" data-dir="down" title="Move down">▼</button>
+          </div>
+        </div>`;
+    }
+
+    /**
+     * Enter edit/reorder mode. Swaps full cards to compact rows.
+     */
+    function enterEditMode() {
+      isEditMode = true;
+      savedFilter = currentFilter;
+
+      const grid = document.querySelector('.project-grid');
+      if (!grid) return;
+
+      // Disable filter tabs and sort dropdown
+      const filterTabs = document.querySelector('.filter-tabs');
+      const sortControls = document.querySelector('.sort-controls');
+      if (filterTabs) filterTabs.classList.add('controls-disabled');
+      if (sortControls) {
+        // Disable just the select, not the reorder button
+        const sel = sortControls.querySelector('#sort-select');
+        const label = sortControls.querySelector('label');
+        if (sel) sel.classList.add('controls-disabled');
+        if (label) label.classList.add('controls-disabled');
+      }
+
+      // Show all projects (clear filter)
+      document.querySelectorAll('.project-card').forEach(c => c.classList.remove('hidden'));
+
+      // Get current card order by slug
+      const cards = Array.from(grid.querySelectorAll('.project-card'));
+      const slugOrder = cards.map(c => c.dataset.slug);
+
+      // Build compact rows from project data in current order
+      const projects = window.__projects || [];
+      const projectMap = {};
+      projects.forEach(p => { projectMap[p.slug] = p; });
+
+      const orderedProjects = [];
+      slugOrder.forEach(slug => {
+        if (projectMap[slug]) orderedProjects.push(projectMap[slug]);
+      });
+      // Add any projects not currently in the grid
+      projects.forEach(p => {
+        if (!slugOrder.includes(p.slug)) orderedProjects.push(p);
+      });
+
+      const rows = orderedProjects.map((p, i) =>
+        renderCompactRow(p, i, orderedProjects.length)
+      ).join('');
+
+      grid.innerHTML = rows;
+
+      // Update reorder button
+      const btn = document.querySelector('.reorder-btn');
+      if (btn) {
+        btn.textContent = 'Done Reordering';
+        btn.classList.add('active');
+      }
+
+      // Attach arrow button listeners
+      attachArrowListeners();
+
+      // Attach pointer-event drag listeners
+      attachDragListeners();
+    }
+
+    /**
+     * Exit edit/reorder mode. Saves order and re-renders full cards.
+     */
+    function exitEditMode() {
+      isEditMode = false;
+
+      const grid = document.querySelector('.project-grid');
+      if (!grid) return;
+
+      // Read final order from compact rows
+      const rows = Array.from(grid.querySelectorAll('.compact-row'));
+      const slugOrder = rows.map(r => r.dataset.slug);
+
+      // Save to localStorage
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(slugOrder));
+      currentOrder = slugOrder;
+
+      // Re-render full cards in saved order
+      const projects = window.__projects || [];
+      const projectMap = {};
+      projects.forEach(p => { projectMap[p.slug] = p; });
+
+      const orderedCards = [];
+      slugOrder.forEach(slug => {
+        if (projectMap[slug]) orderedCards.push(renderCard(projectMap[slug]));
+      });
+      // Append any new projects not in order
+      projects.forEach(p => {
+        if (!slugOrder.includes(p.slug)) orderedCards.push(renderCard(p));
+      });
+
+      grid.innerHTML = orderedCards.join('');
+
+      // Re-enable controls
+      const filterTabs = document.querySelector('.filter-tabs');
+      const sortControls = document.querySelector('.sort-controls');
+      if (filterTabs) filterTabs.classList.remove('controls-disabled');
+      if (sortControls) {
+        const sel = sortControls.querySelector('#sort-select');
+        const label = sortControls.querySelector('label');
+        if (sel) sel.classList.remove('controls-disabled');
+        if (label) label.classList.remove('controls-disabled');
+      }
+
+      // Update reorder button
+      const btn = document.querySelector('.reorder-btn');
+      if (btn) {
+        btn.textContent = 'Reorder';
+        btn.classList.remove('active');
+      }
+
+      // Set sort to custom and restore filter
+      const sortSelect = document.querySelector('#sort-select');
+      if (sortSelect) {
+        sortSelect.value = 'custom';
+        currentSort = 'custom';
+      }
+
+      // Restore previous filter
+      filterCards(savedFilter);
+    }
+
+    /**
+     * Toggle edit mode on/off.
+     */
+    function toggleEditMode() {
+      if (isEditMode) {
+        exitEditMode();
+      } else {
+        enterEditMode();
+      }
+    }
+
     // --- Filter & Sort ---
 
     /**
