@@ -681,6 +681,46 @@
       revenue_driver: { pct: 100, label: 'Revenue Driver',  color: 'var(--olive)' }
     };
 
+    // --- Score Calculation ---
+
+    const ADOPTION_SCORE = {
+      none: 0, josh_only: 3.3, team_uses: 6.6, client_facing: 10
+    };
+
+    const AUTONOMY_SCORE = {
+      josh_dependent: 3.3, needs_guidance: 6.6, fully_independent: 10
+    };
+
+    const REVENUE_SCORE = {
+      internal_only: 3.3, client_touch: 6.6, revenue_driver: 10
+    };
+
+    /**
+     * Calculate composite health score for a project.
+     * Formula: (Adoption + Autonomy * 2 + Revenue) / 4
+     * Autonomy is weighted double per spec.
+     * @param {Object} project - The project object
+     * @returns {number} Score from 0.0 to 10.0
+     */
+    function computeScore(project) {
+      const adoption = ADOPTION_SCORE[project?.adoption] ?? 0;
+      const autonomy = AUTONOMY_SCORE[project?.autonomy] ?? 0;
+      const revenue = REVENUE_SCORE[project?.revenueProximity] ?? 0;
+      // Autonomy weighted 2x: (adoption + autonomy*2 + revenue) / 4
+      return (adoption + autonomy * 2 + revenue) / 4;
+    }
+
+    /**
+     * Get the CSS tier class for a score value.
+     * @param {number} score - Composite score 0-10
+     * @returns {string} CSS class name
+     */
+    function scoreTierClass(score) {
+      if (score >= 7.0) return 'score-tier-olive';
+      if (score >= 4.0) return 'score-tier-gold';
+      return 'score-tier-canyon';
+    }
+
     // --- Utilities ---
 
     /**
