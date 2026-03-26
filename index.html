@@ -170,47 +170,6 @@
       margin-top: 0.5rem;
     }
 
-    /* --- Health Bars --- */
-    .health-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .health-bar {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .health-label {
-      width: 7rem;
-      flex-shrink: 0;
-      font-weight: 600;
-      font-size: 0.85rem;
-    }
-
-    .health-track {
-      flex: 1;
-      height: 8px;
-      background: #e0ddd8;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .health-fill {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 0.3s ease;
-    }
-
-    .health-text {
-      width: 7rem;
-      flex-shrink: 0;
-      font-size: 0.8rem;
-      color: #777;
-      text-align: right;
-    }
 
     /* --- Version History --- */
     .version-history summary {
@@ -292,6 +251,214 @@
     .priority-value {
       font-weight: 700;
       color: var(--charcoal);
+    }
+
+    /* --- Score Circle --- */
+    .score-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 3px solid var(--canyon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .score-circle .score-value {
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .score-tier-olive { border-color: var(--olive); color: var(--olive); }
+    .score-tier-gold { border-color: var(--gold); color: var(--gold); }
+    .score-tier-canyon { border-color: var(--canyon); color: var(--canyon); }
+
+    /* --- Card Header (redesigned for score circle) --- */
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .card-header-left {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* --- Stack Tags --- */
+    .stack-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.5rem;
+    }
+
+    .stack-tag {
+      background: #f0ede8;
+      color: #666;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.6rem;
+    }
+
+    /* --- Health Dot Indicators (bottom bar) --- */
+    .health-dots {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      padding-top: 0.5rem;
+      margin-top: 0.5rem;
+      border-top: 1px solid #eee;
+    }
+
+    .health-dot {
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+
+    /* --- Card Hover --- */
+    .project-card {
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    @media (hover: hover) {
+      .project-card:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    /* --- Edit/Reorder Mode --- */
+    .reorder-btn {
+      border: 1px solid #ddd;
+      background: white;
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      margin-left: 0.5rem;
+    }
+
+    .reorder-btn:hover {
+      border-color: var(--olive);
+    }
+
+    .reorder-btn.active {
+      background: var(--olive);
+      color: white;
+      border-color: var(--olive);
+    }
+
+    .controls-disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* --- Compact Row (edit mode) --- */
+    .compact-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid #e8e5e0;
+    }
+
+    .compact-row.drag-source {
+      opacity: 0.4;
+      border: 2px dashed var(--gold);
+    }
+
+    .drag-handle {
+      color: #bbb;
+      font-size: 1rem;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+
+    .compact-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .compact-name-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .compact-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--charcoal);
+    }
+
+    .compact-desc {
+      color: #999;
+      font-size: 0.7rem;
+      margin-top: 0.1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .arrow-buttons {
+      display: flex;
+      gap: 0.25rem;
+      flex-shrink: 0;
+    }
+
+    .arrow-btn {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f3ef;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      color: #888;
+      cursor: pointer;
+      font-family: var(--font-body);
+    }
+
+    .arrow-btn:hover {
+      background: #e8e5e0;
+    }
+
+    .arrow-btn.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* --- Drag insertion indicator --- */
+    .drop-indicator {
+      height: 2px;
+      background: var(--gold);
+      border-radius: 1px;
+      margin: -1px 0;
+      pointer-events: none;
+    }
+
+    /* --- Floating drag clone --- */
+    .drag-clone {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.9;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      max-width: 90vw;
     }
 
     /* --- Card Section Spacing --- */
@@ -382,23 +549,6 @@
       font-family: var(--font-body);
     }
 
-    /* --- Drag and Drop --- */
-    .project-card[draggable="true"] {
-      cursor: grab;
-    }
-
-    .project-card[draggable="true"]:active {
-      cursor: grabbing;
-    }
-
-    .project-card.dragging {
-      opacity: 0.4;
-      border: 2px dashed var(--canyon);
-    }
-
-    .project-card.drag-over {
-      border-top: 2px solid var(--gold);
-    }
 
     /* --- Mobile Responsive (480px and below) --- */
     @media (max-width: 480px) {
@@ -458,14 +608,22 @@
         font-size: 1rem;
       }
 
-      /* Health bars: narrower labels to prevent overflow */
-      .health-label {
-        width: 5rem;
-        font-size: 0.78rem;
+      /* Reorder button: own row on mobile */
+      .reorder-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-left: 0;
+        margin-top: 0.5rem;
       }
-      .health-text {
-        width: 5.5rem;
-        font-size: 0.75rem;
+
+      /* Compact rows */
+      .compact-name {
+        font-size: 0.8rem;
+      }
+
+      .compact-desc {
+        font-size: 0.65rem;
       }
 
       /* Priority scores */
