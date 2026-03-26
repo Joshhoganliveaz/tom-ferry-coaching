@@ -382,6 +382,24 @@
       font-family: var(--font-body);
     }
 
+    /* --- Drag and Drop --- */
+    .project-card[draggable="true"] {
+      cursor: grab;
+    }
+
+    .project-card[draggable="true"]:active {
+      cursor: grabbing;
+    }
+
+    .project-card.dragging {
+      opacity: 0.4;
+      border: 2px dashed var(--canyon);
+    }
+
+    .project-card.drag-over {
+      border-top: 2px solid var(--gold);
+    }
+
     /* --- Mobile Responsive (480px and below) --- */
     @media (max-width: 480px) {
       /* Header */
@@ -472,6 +490,11 @@
     // --- Filter/Sort State ---
     let currentFilter = 'all';
     let currentSort = 'recent';
+
+    // --- Drag and Drop State ---
+    const STORAGE_KEY = 'projectCardOrder';
+    let currentOrder = null;
+    let draggedCard = null;
 
     // --- Constants ---
     const VALID_STATUSES = ['shipped', 'in_progress', 'parking_lot'];
@@ -829,6 +852,12 @@
       const container = document.querySelector('.project-grid');
       if (!container) return;
 
+      // Custom order: reapply saved order from localStorage
+      if (sortKey === 'custom') {
+        applyCustomOrder();
+        return;
+      }
+
       const cards = Array.from(container.querySelectorAll('.project-card'));
 
       const AUTONOMY_ORDER = {
@@ -860,6 +889,121 @@
       cards.forEach(card => container.appendChild(card));
     }
 
+    // --- Drag and Drop ---
+
+    /**
+     * Save current card order to localStorage and update sort dropdown.
+     */
+    function saveCustomOrder() {
+      const cards = document.querySelectorAll('.project-card');
+      const slugArray = Array.from(cards).map(card => card.dataset.slug);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(slugArray));
+      currentOrder = slugArray;
+
+      // Update sort dropdown to show Custom Order
+      const sortSelect = document.querySelector('#sort-select');
+      if (sortSelect) {
+        sortSelect.value = 'custom';
+        currentSort = 'custom';
+      }
+    }
+
+    /**
+     * Apply saved custom order from localStorage.
+     * @returns {boolean} true if custom order was applied, false if none saved
+     */
+    function applyCustomOrder() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return false;
+
+      let slugArray;
+      try {
+        slugArray = JSON.parse(saved);
+      } catch (e) {
+        return false;
+      }
+
+      if (!Array.isArray(slugArray) || slugArray.length === 0) return false;
+
+      const container = document.querySelector('.project-grid');
+      if (!container) return false;
+
+      // Reorder cards based on saved slug array
+      for (const slug of slugArray) {
+        const card = container.querySelector('[data-slug="' + CSS.escape(slug) + '"]');
+        if (card) {
+          container.appendChild(card);
+        }
+      }
+
+      // Append any new cards not in saved order at the end
+      const allCards = container.querySelectorAll('.project-card');
+      allCards.forEach(card => {
+        if (!slugArray.includes(card.dataset.slug)) {
+          container.appendChild(card);
+        }
+      });
+
+      currentOrder = slugArray;
+      return true;
+    }
+
+    /**
+     * Enable drag-and-drop on all project cards.
+     */
+    function enableDragAndDrop() {
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        card.setAttribute('draggable', 'true');
+
+        card.addEventListener('dragstart', (e) => {
+          e.dataTransfer.effectAllowed = 'move';
+          draggedCard = card;
+          card.classList.add('dragging');
+        });
+
+        card.addEventListener('dragend', () => {
+          card.classList.remove('dragging');
+          document.querySelectorAll('.project-card.drag-over').forEach(c => c.classList.remove('drag-over'));
+          draggedCard = null;
+        });
+
+        card.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          if (card !== draggedCard) {
+            // Remove drag-over from all other cards
+            document.querySelectorAll('.project-card.drag-over').forEach(c => c.classList.remove('drag-over'));
+            card.classList.add('drag-over');
+          }
+        });
+
+        card.addEventListener('dragleave', () => {
+          card.classList.remove('drag-over');
+        });
+
+        card.addEventListener('drop', (e) => {
+          e.preventDefault();
+          card.classList.remove('drag-over');
+          if (!draggedCard || draggedCard === card) return;
+
+          const container = document.querySelector('.project-grid');
+          if (!container) return;
+
+          // Determine drop position using vertical midpoint
+          const rect = card.getBoundingClientRect();
+          const midY = rect.top + rect.height / 2;
+          if (e.clientY < midY) {
+            container.insertBefore(draggedCard, card);
+          } else {
+            card.insertAdjacentElement('afterend', draggedCard);
+          }
+
+          saveCustomOrder();
+        });
+      });
+    }
+
     /**
      * Render the full page with summary stats and project card grid.
      * @param {Object} data - The parsed projects.json data
@@ -889,6 +1033,7 @@
             <select id="sort-select">
               <option value="recent">Most Recently Deployed</option>
               <option value="autonomy">Autonomy Level</option>
+              <option value="custom">Custom Order</option>
             </select>
           </div>
         </div>
@@ -910,6 +1055,19 @@
         sortSelect.addEventListener('change', () => {
           sortCards(sortSelect.value);
         });
+      }
+
+      // Enable drag-and-drop reordering
+      enableDragAndDrop();
+
+      // Apply saved custom order if it exists
+      if (localStorage.getItem(STORAGE_KEY)) {
+        applyCustomOrder();
+        const sortSelect2 = app.querySelector('#sort-select');
+        if (sortSelect2) {
+          sortSelect2.value = 'custom';
+          currentSort = 'custom';
+        }
       }
 
       // Store projects on window for Phase 2 access
