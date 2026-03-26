@@ -350,6 +350,27 @@
     const VALID_AUTONOMY = ['josh_dependent', 'needs_guidance', 'fully_independent'];
     const VALID_REVENUE = ['internal_only', 'client_touch', 'revenue_driver'];
 
+    // --- Enum-to-Visual Maps ---
+
+    const ADOPTION_MAP = {
+      none:          { pct: 0,   label: 'None',          color: 'var(--canyon)' },
+      josh_only:     { pct: 33,  label: 'Josh Only',     color: 'var(--gold)' },
+      team_uses:     { pct: 66,  label: 'Team Uses',     color: 'var(--gold)' },
+      client_facing: { pct: 100, label: 'Client Facing',  color: 'var(--olive)' }
+    };
+
+    const AUTONOMY_MAP = {
+      josh_dependent:    { pct: 33,  label: 'Josh Dependent',    color: 'var(--canyon)' },
+      needs_guidance:    { pct: 66,  label: 'Needs Guidance',     color: 'var(--gold)' },
+      fully_independent: { pct: 100, label: 'Fully Independent',  color: 'var(--olive)' }
+    };
+
+    const REVENUE_MAP = {
+      internal_only:  { pct: 33,  label: 'Internal Only',  color: 'var(--canyon)' },
+      client_touch:   { pct: 66,  label: 'Client Touch',   color: 'var(--gold)' },
+      revenue_driver: { pct: 100, label: 'Revenue Driver',  color: 'var(--olive)' }
+    };
+
     // --- Utilities ---
 
     /**
@@ -420,6 +441,93 @@
     function formatStatus(status) {
       if (!status) return 'Unknown';
       return status.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    // --- Stats & Health Bar Helpers ---
+
+    /**
+     * Compute summary counts from projects array.
+     * @param {Array} projects - The projects array
+     * @returns {Object} counts for shipped, inProgress, parkingLot, fullyIndependent, joshDependent, clientFacing
+     */
+    function computeStats(projects) {
+      return {
+        shipped: projects.filter(p => p.status === 'shipped').length,
+        inProgress: projects.filter(p => p.status === 'in_progress').length,
+        parkingLot: projects.filter(p => p.status === 'parking_lot').length,
+        fullyIndependent: projects.filter(p => p.autonomy === 'fully_independent').length,
+        joshDependent: projects.filter(p => p.autonomy === 'josh_dependent').length,
+        clientFacing: projects.filter(p => p.adoption === 'client_facing').length
+      };
+    }
+
+    /**
+     * Render the summary stats bar HTML.
+     * @param {Array} projects - The projects array
+     * @returns {string} HTML string for the stats bar
+     */
+    function renderSummaryStats(projects) {
+      const s = computeStats(projects);
+      return `
+        <div class="summary-stats">
+          <div class="stat-item stat-olive">
+            <div class="stat-count">${s.shipped}</div>
+            <div class="stat-label">Shipped</div>
+          </div>
+          <div class="stat-item stat-gold">
+            <div class="stat-count">${s.inProgress}</div>
+            <div class="stat-label">In Progress</div>
+          </div>
+          <div class="stat-item stat-canyon">
+            <div class="stat-count">${s.parkingLot}</div>
+            <div class="stat-label">Parking Lot</div>
+          </div>
+          <div class="stat-item stat-olive">
+            <div class="stat-count">${s.fullyIndependent}</div>
+            <div class="stat-label">Fully Independent</div>
+          </div>
+          <div class="stat-item stat-gold">
+            <div class="stat-count">${s.joshDependent}</div>
+            <div class="stat-label">Josh Dependent</div>
+          </div>
+          <div class="stat-item stat-olive">
+            <div class="stat-count">${s.clientFacing}</div>
+            <div class="stat-label">Client Facing</div>
+          </div>
+        </div>`;
+    }
+
+    /**
+     * Render a single health bar row.
+     * @param {string} label - Display label (e.g. "Adoption")
+     * @param {string} value - Enum value (e.g. "team_uses")
+     * @param {Object} map - The enum-to-visual map (e.g. ADOPTION_MAP)
+     * @returns {string} HTML string for one health bar
+     */
+    function renderHealthBar(label, value, map) {
+      const entry = map[value] || { pct: 0, label: 'Unknown', color: '#ccc' };
+      return `
+        <div class="health-bar">
+          <span class="health-label">${escapeHtml(label)}</span>
+          <div class="health-track">
+            <div class="health-fill" style="width: ${entry.pct}%; background: ${entry.color};"></div>
+          </div>
+          <span class="health-text">${escapeHtml(entry.label)}</span>
+        </div>`;
+    }
+
+    /**
+     * Render all 3 health bars for a project.
+     * @param {Object} project - The project object
+     * @returns {string} HTML string for the health bars section
+     */
+    function renderHealthBars(project) {
+      return `
+        <div class="health-bars card-section">
+          ${renderHealthBar('Adoption', project.adoption, ADOPTION_MAP)}
+          ${renderHealthBar('Autonomy', project.autonomy, AUTONOMY_MAP)}
+          ${renderHealthBar('Revenue', project.revenueProximity, REVENUE_MAP)}
+        </div>`;
     }
 
     /**
