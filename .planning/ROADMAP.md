@@ -13,7 +13,7 @@ Ship a single-page project portfolio tracker that Josh can pull up on coaching c
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Data Foundation + Scaffold** - JSON schema, seed data, HTML skeleton with branding, fetch-parse pipeline
-- [ ] **Phase 2: Card Rendering + Interactivity** - Project cards, health bars, summary stats, filter/sort controls
+- [x] **Phase 2: Card Rendering + Interactivity** - Project cards, health bars, summary stats, filter/sort controls (completed 2026-03-26)
 - [ ] **Phase 3: Responsive Polish + Deploy** - Mobile layout, GitHub Pages deployment, maintenance workflow
 
 ## Phase Details
@@ -44,7 +44,7 @@ Plans:
   3. Summary stats bar at top shows live counts by status and health dimensions, computed dynamically from the data
   4. Clicking filter tabs (All / Shipped / In Progress / Parking Lot) shows only matching cards; sort options reorder visible cards
   5. Version history expands per card showing entries newest-first; "Up Next" box appears only when data exists; priority scores appear only on unshipped projects
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 02-01-PLAN.md -- Card rendering with health bars, summary stats, version history, Up Next, and priority scores (CARD-01, CARD-02, CARD-03, CARD-04, CARD-05, NAV-01)
@@ -71,5 +71,5 @@ Phases execute in numeric order: 1 -> 2 -> 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Data Foundation + Scaffold | 2/2 | Complete | 2026-03-25 |
-| 2. Card Rendering + Interactivity | 1/2 | In Progress|  |
+| 2. Card Rendering + Interactivity | 2/2 | Complete   | 2026-03-26 |
 | 3. Responsive Polish + Deploy | 0/1 | Not started | - |

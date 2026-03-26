@@ -26,8 +26,8 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Summary & Navigation
 
 - [x] **NAV-01**: Summary stats bar at top showing counts: Shipped (olive), In Progress (gold), Fully Independent (olive), Josh-Dependent (gold), Client-Facing (olive)
-- [ ] **NAV-02**: Filter tabs (All / Shipped / In Progress / Parking Lot) that show/hide cards by status
-- [ ] **NAV-03**: Sort options (most recently deployed, autonomy level) that reorder visible cards
+- [x] **NAV-02**: Filter tabs (All / Shipped / In Progress / Parking Lot) that show/hide cards by status
+- [x] **NAV-03**: Sort options (most recently deployed, autonomy level) that reorder visible cards
 
 ### Visual Design
 
@@ -84,8 +84,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CARD-04 | Phase 2 | Complete |
 | CARD-05 | Phase 2 | Complete |
 | NAV-01 | Phase 2 | Complete |
-| NAV-02 | Phase 2 | Pending |
-| NAV-03 | Phase 2 | Pending |
+| NAV-02 | Phase 2 | Complete |
+| NAV-03 | Phase 2 | Complete |
 | VIS-01 | Phase 1 | Complete |
 | VIS-02 | Phase 1 | Complete |
 | VIS-03 | Phase 3 | Pending |
