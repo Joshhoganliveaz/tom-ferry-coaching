@@ -9,8 +9,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Data Layer
 
-- [ ] **DATA-01**: projects.json schema supports all project fields (name, description, status, currentVersion, deployedUrl, deployedDate, health scores, versions array, upNext, priority)
-- [ ] **DATA-02**: Seed data pre-populated for all ~16 projects with accurate versions, dates, and health scores from CLAUDE.md and project memory
+- [x] **DATA-01**: projects.json schema supports all project fields (name, description, status, currentVersion, deployedUrl, deployedDate, health scores, versions array, upNext, priority)
+- [x] **DATA-02**: Seed data pre-populated for all ~16 projects with accurate versions, dates, and health scores from CLAUDE.md and project memory
 - [ ] **DATA-03**: HTML fetches projects.json with cache-busting parameter to prevent stale data on coaching calls
 - [ ] **DATA-04**: Schema validation function logs warnings for malformed or missing fields in project entries
 - [ ] **DATA-05**: Footer displays build/data timestamp showing when projects.json was last loaded
@@ -73,8 +73,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 1 | Pending |
-| DATA-02 | Phase 1 | Pending |
+| DATA-01 | Phase 1 | Complete |
+| DATA-02 | Phase 1 | Complete |
 | DATA-03 | Phase 1 | Pending |
 | DATA-04 | Phase 1 | Pending |
 | DATA-05 | Phase 1 | Pending |
