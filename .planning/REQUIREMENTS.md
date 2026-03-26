@@ -11,9 +11,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **DATA-01**: projects.json schema supports all project fields (name, description, status, currentVersion, deployedUrl, deployedDate, health scores, versions array, upNext, priority)
 - [x] **DATA-02**: Seed data pre-populated for all ~16 projects with accurate versions, dates, and health scores from CLAUDE.md and project memory
-- [ ] **DATA-03**: HTML fetches projects.json with cache-busting parameter to prevent stale data on coaching calls
-- [ ] **DATA-04**: Schema validation function logs warnings for malformed or missing fields in project entries
-- [ ] **DATA-05**: Footer displays build/data timestamp showing when projects.json was last loaded
+- [x] **DATA-03**: HTML fetches projects.json with cache-busting parameter to prevent stale data on coaching calls
+- [x] **DATA-04**: Schema validation function logs warnings for malformed or missing fields in project entries
+- [x] **DATA-05**: Footer displays build/data timestamp showing when projects.json was last loaded
 
 ### Project Cards
 
@@ -31,13 +31,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Visual Design
 
-- [ ] **VIS-01**: Live AZ Co branding applied -- Olive (#5C6B4F), Canyon (#8B6F5C), Gold (#C9953E), Cream (#FAF7F2), Charcoal (#2C2C2C)
-- [ ] **VIS-02**: Source Serif 4 for headings, DM Sans for body text (loaded via Google Fonts)
+- [x] **VIS-01**: Live AZ Co branding applied -- Olive (#5C6B4F), Canyon (#8B6F5C), Gold (#C9953E), Cream (#FAF7F2), Charcoal (#2C2C2C)
+- [x] **VIS-02**: Source Serif 4 for headings, DM Sans for body text (loaded via Google Fonts)
 - [ ] **VIS-03**: Responsive layout -- cards stack vertically on mobile (375px+), summary stats bar wraps gracefully
 
 ### Deployment
 
-- [ ] **DEPLOY-01**: Single HTML file (index.html) + separate projects.json, no build process or dependencies
+- [x] **DEPLOY-01**: Single HTML file (index.html) + separate projects.json, no build process or dependencies
 - [ ] **DEPLOY-02**: GitHub Pages deployment from main branch, auto-deploys on push
 - [ ] **DEPLOY-03**: Claude Code can update projects.json, commit, and push to trigger deploy in under 60 seconds
 
@@ -75,9 +75,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | DATA-01 | Phase 1 | Complete |
 | DATA-02 | Phase 1 | Complete |
-| DATA-03 | Phase 1 | Pending |
-| DATA-04 | Phase 1 | Pending |
-| DATA-05 | Phase 1 | Pending |
+| DATA-03 | Phase 1 | Complete |
+| DATA-04 | Phase 1 | Complete |
+| DATA-05 | Phase 1 | Complete |
 | CARD-01 | Phase 2 | Pending |
 | CARD-02 | Phase 2 | Pending |
 | CARD-03 | Phase 2 | Pending |
@@ -86,10 +86,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-01 | Phase 2 | Pending |
 | NAV-02 | Phase 2 | Pending |
 | NAV-03 | Phase 2 | Pending |
-| VIS-01 | Phase 1 | Pending |
-| VIS-02 | Phase 1 | Pending |
+| VIS-01 | Phase 1 | Complete |
+| VIS-02 | Phase 1 | Complete |
 | VIS-03 | Phase 3 | Pending |
-| DEPLOY-01 | Phase 1 | Pending |
+| DEPLOY-01 | Phase 1 | Complete |
 | DEPLOY-02 | Phase 3 | Pending |
 | DEPLOY-03 | Phase 3 | Pending |
 

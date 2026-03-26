@@ -12,7 +12,7 @@ Ship a single-page project portfolio tracker that Josh can pull up on coaching c
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Data Foundation + Scaffold** - JSON schema, seed data, HTML skeleton with branding, fetch-parse pipeline
+- [x] **Phase 1: Data Foundation + Scaffold** - JSON schema, seed data, HTML skeleton with branding, fetch-parse pipeline
 - [ ] **Phase 2: Card Rendering + Interactivity** - Project cards, health bars, summary stats, filter/sort controls
 - [ ] **Phase 3: Responsive Polish + Deploy** - Mobile layout, GitHub Pages deployment, maintenance workflow
 
@@ -31,8 +31,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md -- JSON schema and seed data for ~16 projects (DATA-01, DATA-02)
-- [ ] 01-02-PLAN.md -- Branded HTML with fetch-parse-validate-render pipeline (DATA-03, DATA-04, DATA-05, VIS-01, VIS-02, DEPLOY-01)
+- [x] 01-01-PLAN.md -- JSON schema and seed data for ~16 projects (DATA-01, DATA-02)
+- [x] 01-02-PLAN.md -- Branded HTML with fetch-parse-validate-render pipeline (DATA-03, DATA-04, DATA-05, VIS-01, VIS-02, DEPLOY-01)
 
 ### Phase 2: Card Rendering + Interactivity
 **Goal**: All project data renders as interactive cards with health bars, version history, priority scores, summary stats, and filter/sort controls
@@ -70,6 +70,6 @@ Phases execute in numeric order: 1 -> 2 -> 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Data Foundation + Scaffold | 0/2 | Not started | - |
+| 1. Data Foundation + Scaffold | 2/2 | Complete | 2026-03-25 |
 | 2. Card Rendering + Interactivity | 0/2 | Not started | - |
 | 3. Responsive Polish + Deploy | 0/1 | Not started | - |
