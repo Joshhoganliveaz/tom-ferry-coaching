@@ -381,6 +381,80 @@
       border: 1px solid #ddd;
       font-family: var(--font-body);
     }
+
+    /* --- Mobile Responsive (480px and below) --- */
+    @media (max-width: 480px) {
+      /* Header */
+      header {
+        padding: 1.25rem 0.75rem;
+      }
+      header h1 {
+        font-size: 1.35rem;
+      }
+
+      /* Main content */
+      main {
+        padding: 1.25rem 0.5rem;
+      }
+
+      /* Summary stats bar: 2-per-row */
+      .summary-stats {
+        gap: 0.5rem;
+        padding: 0 0.5rem;
+      }
+      .stat-item {
+        min-width: 0;
+        flex: 1 1 calc(50% - 0.5rem);
+        padding: 0.5rem 0.75rem;
+      }
+      .stat-count {
+        font-size: 1.25rem;
+      }
+
+      /* Filter bar: stacked layout */
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0 0.5rem;
+      }
+      .filter-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .filter-tab {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.8rem;
+      }
+      .sort-controls {
+        justify-content: center;
+      }
+
+      /* Project grid + cards */
+      .project-grid {
+        padding: 0 0.5rem;
+      }
+      .project-card {
+        padding: 1rem;
+      }
+      .card-header h3 {
+        font-size: 1rem;
+      }
+
+      /* Health bars: narrower labels to prevent overflow */
+      .health-label {
+        width: 5rem;
+        font-size: 0.78rem;
+      }
+      .health-text {
+        width: 5.5rem;
+        font-size: 0.75rem;
+      }
+
+      /* Priority scores */
+      .priority-scores {
+        gap: 0.5rem 0.75rem;
+      }
+    }
   </style>
 </head>
 <body>
