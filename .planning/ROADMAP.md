@@ -47,8 +47,8 @@ Plans:
 **Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 02-01-PLAN.md -- Card rendering with health bars, summary stats, version history, Up Next, and priority scores (CARD-01, CARD-02, CARD-03, CARD-04, CARD-05, NAV-01)
-- [ ] 02-02-PLAN.md -- Filter tabs and sort controls for interactive card navigation (NAV-02, NAV-03)
+- [x] 02-01-PLAN.md -- Card rendering with health bars, summary stats, version history, Up Next, and priority scores (CARD-01, CARD-02, CARD-03, CARD-04, CARD-05, NAV-01)
+- [x] 02-02-PLAN.md -- Filter tabs and sort controls for interactive card navigation (NAV-02, NAV-03)
 
 ### Phase 3: Responsive Polish + Deploy
 **Goal**: The tracker is deployed on GitHub Pages with a responsive layout that works on phones during coaching calls
@@ -58,10 +58,10 @@ Plans:
   1. On a 375px mobile viewport, cards stack vertically and the summary stats bar wraps gracefully with no horizontal scroll
   2. The site is live on GitHub Pages at a bookmarkable URL, auto-deploying on push to main
   3. Claude Code can update projects.json, commit, and push to trigger a deploy that is visible within 60 seconds of the push completing
-**Plans**: TBD
+**Plans:** 1 plan
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md -- Responsive CSS media queries, GitHub Pages deployment, data update workflow (VIS-03, DEPLOY-02, DEPLOY-03)
 
 ## Progress
 
