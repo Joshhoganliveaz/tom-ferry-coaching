@@ -44,7 +44,7 @@ Plans:
   3. Summary stats bar at top shows live counts by status and health dimensions, computed dynamically from the data
   4. Clicking filter tabs (All / Shipped / In Progress / Parking Lot) shows only matching cards; sort options reorder visible cards
   5. Version history expands per card showing entries newest-first; "Up Next" box appears only when data exists; priority scores appear only on unshipped projects
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
 - [ ] 02-01-PLAN.md -- Card rendering with health bars, summary stats, version history, Up Next, and priority scores (CARD-01, CARD-02, CARD-03, CARD-04, CARD-05, NAV-01)
@@ -71,5 +71,5 @@ Phases execute in numeric order: 1 -> 2 -> 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Data Foundation + Scaffold | 2/2 | Complete | 2026-03-25 |
-| 2. Card Rendering + Interactivity | 0/2 | Not started | - |
+| 2. Card Rendering + Interactivity | 1/2 | In Progress|  |
 | 3. Responsive Polish + Deploy | 0/1 | Not started | - |

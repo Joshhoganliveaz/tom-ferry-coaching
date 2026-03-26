@@ -17,15 +17,15 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Project Cards
 
-- [ ] **CARD-01**: Card header displays project name, status badge (shipped/in_progress/parking_lot), version badge, deployed date, and clickable deployed URL
-- [ ] **CARD-02**: Three health progress bars per card (Adoption, Autonomy, Revenue Proximity) with color coding per spec (red/gold/olive) and human-readable text labels
-- [ ] **CARD-03**: Expandable version history section per card showing versions newest-first with date and changelog notes
-- [ ] **CARD-04**: "Up Next" box with gold highlight showing next planned version and notes (visible only when upNext data exists)
-- [ ] **CARD-05**: Priority scores section (makesMoney, savesTime, servesClients, speedToFinish as 1-5 ranks) visible only on in_progress and parking_lot cards
+- [x] **CARD-01**: Card header displays project name, status badge (shipped/in_progress/parking_lot), version badge, deployed date, and clickable deployed URL
+- [x] **CARD-02**: Three health progress bars per card (Adoption, Autonomy, Revenue Proximity) with color coding per spec (red/gold/olive) and human-readable text labels
+- [x] **CARD-03**: Expandable version history section per card showing versions newest-first with date and changelog notes
+- [x] **CARD-04**: "Up Next" box with gold highlight showing next planned version and notes (visible only when upNext data exists)
+- [x] **CARD-05**: Priority scores section (makesMoney, savesTime, servesClients, speedToFinish as 1-5 ranks) visible only on in_progress and parking_lot cards
 
 ### Summary & Navigation
 
-- [ ] **NAV-01**: Summary stats bar at top showing counts: Shipped (olive), In Progress (gold), Fully Independent (olive), Josh-Dependent (gold), Client-Facing (olive)
+- [x] **NAV-01**: Summary stats bar at top showing counts: Shipped (olive), In Progress (gold), Fully Independent (olive), Josh-Dependent (gold), Client-Facing (olive)
 - [ ] **NAV-02**: Filter tabs (All / Shipped / In Progress / Parking Lot) that show/hide cards by status
 - [ ] **NAV-03**: Sort options (most recently deployed, autonomy level) that reorder visible cards
 
@@ -78,12 +78,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-03 | Phase 1 | Complete |
 | DATA-04 | Phase 1 | Complete |
 | DATA-05 | Phase 1 | Complete |
-| CARD-01 | Phase 2 | Pending |
-| CARD-02 | Phase 2 | Pending |
-| CARD-03 | Phase 2 | Pending |
-| CARD-04 | Phase 2 | Pending |
-| CARD-05 | Phase 2 | Pending |
-| NAV-01 | Phase 2 | Pending |
+| CARD-01 | Phase 2 | Complete |
+| CARD-02 | Phase 2 | Complete |
+| CARD-03 | Phase 2 | Complete |
+| CARD-04 | Phase 2 | Complete |
+| CARD-05 | Phase 2 | Complete |
+| NAV-01 | Phase 2 | Complete |
 | NAV-02 | Phase 2 | Pending |
 | NAV-03 | Phase 2 | Pending |
 | VIS-01 | Phase 1 | Complete |
