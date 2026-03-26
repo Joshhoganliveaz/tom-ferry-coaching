@@ -33,13 +33,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **VIS-01**: Live AZ Co branding applied -- Olive (#5C6B4F), Canyon (#8B6F5C), Gold (#C9953E), Cream (#FAF7F2), Charcoal (#2C2C2C)
 - [x] **VIS-02**: Source Serif 4 for headings, DM Sans for body text (loaded via Google Fonts)
-- [ ] **VIS-03**: Responsive layout -- cards stack vertically on mobile (375px+), summary stats bar wraps gracefully
+- [x] **VIS-03**: Responsive layout -- cards stack vertically on mobile (375px+), summary stats bar wraps gracefully
 
 ### Deployment
 
 - [x] **DEPLOY-01**: Single HTML file (index.html) + separate projects.json, no build process or dependencies
-- [ ] **DEPLOY-02**: GitHub Pages deployment from main branch, auto-deploys on push
-- [ ] **DEPLOY-03**: Claude Code can update projects.json, commit, and push to trigger deploy in under 60 seconds
+- [x] **DEPLOY-02**: GitHub Pages deployment from main branch, auto-deploys on push
+- [x] **DEPLOY-03**: Claude Code can update projects.json, commit, and push to trigger deploy in under 60 seconds
 
 ## v2 Requirements
 
@@ -88,10 +88,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-03 | Phase 2 | Complete |
 | VIS-01 | Phase 1 | Complete |
 | VIS-02 | Phase 1 | Complete |
-| VIS-03 | Phase 3 | Pending |
+| VIS-03 | Phase 3 | Complete |
 | DEPLOY-01 | Phase 1 | Complete |
-| DEPLOY-02 | Phase 3 | Pending |
-| DEPLOY-03 | Phase 3 | Pending |
+| DEPLOY-02 | Phase 3 | Complete |
+| DEPLOY-03 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 19 total
