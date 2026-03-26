@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-25)
 Phase: 3 of 3 (Responsive Polish + Deploy) - COMPLETE
 Plan: 1 of 1 in current phase - COMPLETE
 Status: All phases complete -- Milestone v1.0 shipped
-Last activity: 2026-03-26 -- Completed 03-01 responsive polish and deploy
+Last activity: 2026-03-26 - Completed quick task 1: Add drag-and-drop reordering to project tracker with localStorage persistence
 
 Progress: [██████████] 100%
 
@@ -84,6 +84,12 @@ None yet.
 - Seed data accuracy: ~16 projects need real health scores, version histories, and deploy URLs mined from existing repos and CLAUDE.md. Most time-consuming part of Phase 1.
 - Health score calibration: Josh needs to define what each 1-10 level means for Adoption/Autonomy/Revenue Proximity.
 - GitHub repo name and privacy: Final name affects public URL. Confirm Josh is comfortable with project names being public.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 1 | Add drag-and-drop reordering to project tracker with localStorage persistence | 2026-03-26 | 4b3bfa3 | [1-add-drag-and-drop-reordering-to-project-](./quick/1-add-drag-and-drop-reordering-to-project-/) |
 
 ## Session Continuity
 
