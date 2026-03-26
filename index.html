@@ -78,21 +78,68 @@
       font-weight: 600;
     }
 
-    .project-list {
+    /* --- Summary Stats Bar --- */
+    .summary-stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      max-width: 900px;
+      margin: 0 auto 1.5rem auto;
+      padding: 0 1rem;
+    }
+
+    .stat-item {
+      background: white;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      border-left: 4px solid #ccc;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .stat-olive { border-left-color: var(--olive); }
+    .stat-gold { border-left-color: var(--gold); }
+    .stat-canyon { border-left-color: var(--canyon); }
+
+    .stat-count {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--charcoal);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* --- Project Grid --- */
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
       max-width: 900px;
       margin: 0 auto;
       padding: 0 1rem;
     }
 
-    .project-item {
+    .project-card {
       background: white;
       border-radius: 8px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1rem;
+      padding: 1.5rem;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
 
-    .project-item h3 {
+    .project-card.hidden {
+      display: none;
+    }
+
+    /* --- Card Header --- */
+    .card-header h3 {
       font-size: 1.15rem;
       margin-bottom: 0.25rem;
       display: flex;
@@ -101,10 +148,155 @@
       flex-wrap: wrap;
     }
 
-    .project-item p {
+    .card-meta {
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 0.25rem;
+    }
+
+    .deploy-link {
+      color: var(--olive);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .deploy-link:hover {
+      text-decoration: underline;
+    }
+
+    .card-description {
       color: #555;
       font-size: 0.95rem;
-      margin-top: 0.35rem;
+      margin-top: 0.5rem;
+    }
+
+    /* --- Health Bars --- */
+    .health-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .health-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .health-label {
+      width: 7rem;
+      flex-shrink: 0;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .health-track {
+      flex: 1;
+      height: 8px;
+      background: #e0ddd8;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .health-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .health-text {
+      width: 7rem;
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      color: #777;
+      text-align: right;
+    }
+
+    /* --- Version History --- */
+    .version-history summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--olive);
+      font-size: 0.9rem;
+    }
+
+    .version-history summary:hover {
+      text-decoration: underline;
+    }
+
+    .version-list {
+      border-left: 2px solid var(--cream);
+      margin-top: 0.5rem;
+      padding-left: 0;
+    }
+
+    .version-entry {
+      padding-left: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .version-entry strong {
+      font-size: 0.9rem;
+    }
+
+    .version-date {
+      font-size: 0.8rem;
+      color: #999;
+      margin-left: 0.5rem;
+    }
+
+    .version-entry p {
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 0.15rem;
+    }
+
+    /* --- Up Next Box --- */
+    .up-next {
+      border-left: 4px solid var(--gold);
+      background: #fdf8f0;
+      padding: 1rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .up-next-title {
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .up-next p {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    /* --- Priority Scores --- */
+    .priority-scores {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .priority-item {
+      font-size: 0.85rem;
+    }
+
+    .priority-label {
+      color: #777;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .priority-value {
+      font-weight: 700;
+      color: var(--charcoal);
+    }
+
+    /* --- Card Section Spacing --- */
+    .card-section {
+      margin-top: 1rem;
     }
 
     .version-label {
