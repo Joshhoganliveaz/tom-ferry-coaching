@@ -1204,6 +1204,197 @@
       }
     }
 
+    // --- Arrow & Drag Handlers ---
+
+    /**
+     * Attach click listeners to arrow buttons in compact rows.
+     * Moves rows up/down and updates disabled states.
+     */
+    function attachArrowListeners() {
+      const grid = document.querySelector('.project-grid');
+      if (!grid) return;
+
+      grid.addEventListener('click', (e) => {
+        const btn = e.target.closest('.arrow-btn');
+        if (!btn || btn.classList.contains('disabled')) return;
+
+        const row = btn.closest('.compact-row');
+        if (!row) return;
+
+        const dir = btn.dataset.dir;
+        if (dir === 'up' && row.previousElementSibling) {
+          row.parentNode.insertBefore(row, row.previousElementSibling);
+        } else if (dir === 'down' && row.nextElementSibling) {
+          row.nextElementSibling.insertAdjacentElement('afterend', row);
+        }
+
+        updateArrowStates();
+      });
+    }
+
+    /**
+     * Update disabled state on all arrow buttons based on position.
+     */
+    function updateArrowStates() {
+      const rows = document.querySelectorAll('.compact-row');
+      const last = rows.length - 1;
+      rows.forEach((row, i) => {
+        const upBtn = row.querySelector('[data-dir="up"]');
+        const downBtn = row.querySelector('[data-dir="down"]');
+        if (upBtn) {
+          if (i === 0) upBtn.classList.add('disabled');
+          else upBtn.classList.remove('disabled');
+        }
+        if (downBtn) {
+          if (i === last) downBtn.classList.add('disabled');
+          else downBtn.classList.remove('disabled');
+        }
+      });
+    }
+
+    /**
+     * Attach pointer-event drag listeners to drag handles in compact rows.
+     */
+    function attachDragListeners() {
+      const grid = document.querySelector('.project-grid');
+      if (!grid) return;
+
+      let dragRow = null;
+      let clone = null;
+      let indicator = null;
+      let offsetY = 0;
+      let scrollInterval = null;
+
+      function getRowAtPoint(y) {
+        const rows = Array.from(grid.querySelectorAll('.compact-row'));
+        for (const row of rows) {
+          if (row === dragRow) continue;
+          const rect = row.getBoundingClientRect();
+          if (y >= rect.top && y <= rect.bottom) {
+            return { row, midY: rect.top + rect.height / 2 };
+          }
+        }
+        return null;
+      }
+
+      function removeIndicator() {
+        if (indicator && indicator.parentNode) {
+          indicator.parentNode.removeChild(indicator);
+        }
+        indicator = null;
+      }
+
+      function autoScroll(clientY) {
+        if (scrollInterval) {
+          cancelAnimationFrame(scrollInterval);
+          scrollInterval = null;
+        }
+        const threshold = 50;
+        const speed = 5;
+        const viewH = window.innerHeight;
+
+        function step() {
+          if (clientY < threshold) {
+            window.scrollBy(0, -speed);
+          } else if (clientY > viewH - threshold) {
+            window.scrollBy(0, speed);
+          }
+          scrollInterval = requestAnimationFrame(step);
+        }
+
+        if (clientY < threshold || clientY > viewH - threshold) {
+          scrollInterval = requestAnimationFrame(step);
+        }
+      }
+
+      grid.addEventListener('pointerdown', (e) => {
+        const handle = e.target.closest('.drag-handle');
+        if (!handle) return;
+
+        dragRow = handle.closest('.compact-row');
+        if (!dragRow) return;
+
+        e.preventDefault();
+        handle.setPointerCapture(e.pointerId);
+
+        const rect = dragRow.getBoundingClientRect();
+        offsetY = e.clientY - rect.top;
+
+        // Create floating clone
+        clone = dragRow.cloneNode(true);
+        clone.classList.add('drag-clone');
+        clone.style.width = rect.width + 'px';
+        clone.style.top = rect.top + 'px';
+        clone.style.left = rect.left + 'px';
+        document.body.appendChild(clone);
+
+        dragRow.classList.add('drag-source');
+
+        // Create indicator element
+        indicator = document.createElement('div');
+        indicator.classList.add('drop-indicator');
+      });
+
+      grid.addEventListener('pointermove', (e) => {
+        if (!dragRow || !clone) return;
+
+        clone.style.top = (e.clientY - offsetY) + 'px';
+
+        autoScroll(e.clientY);
+
+        // Find target row and show indicator
+        removeIndicator();
+        const target = getRowAtPoint(e.clientY);
+        if (target) {
+          if (e.clientY < target.midY) {
+            target.row.parentNode.insertBefore(indicator, target.row);
+          } else {
+            target.row.insertAdjacentElement('afterend', indicator);
+          }
+        }
+      });
+
+      grid.addEventListener('pointerup', () => {
+        if (!dragRow) return;
+
+        // Move row to indicator position
+        if (indicator && indicator.parentNode) {
+          indicator.parentNode.insertBefore(dragRow, indicator);
+        }
+
+        // Cleanup
+        removeIndicator();
+        dragRow.classList.remove('drag-source');
+        if (clone && clone.parentNode) {
+          clone.parentNode.removeChild(clone);
+        }
+        if (scrollInterval) {
+          cancelAnimationFrame(scrollInterval);
+          scrollInterval = null;
+        }
+        dragRow = null;
+        clone = null;
+
+        updateArrowStates();
+      });
+
+      // Handle pointer leaving the window
+      grid.addEventListener('pointercancel', () => {
+        if (!dragRow) return;
+        removeIndicator();
+        dragRow.classList.remove('drag-source');
+        if (clone && clone.parentNode) {
+          clone.parentNode.removeChild(clone);
+        }
+        if (scrollInterval) {
+          cancelAnimationFrame(scrollInterval);
+          scrollInterval = null;
+        }
+        dragRow = null;
+        clone = null;
+      });
+    }
+
     // --- Filter & Sort ---
 
     /**
