@@ -28,11 +28,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. projects.json contains accurate seed data for all ~16 projects with correct versions, dates, health scores, and deploy URLs
   4. Console shows validation warnings if any project entry has malformed or missing fields
   5. Footer displays the timestamp of when projects.json was last loaded
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md -- JSON schema and seed data for ~16 projects (DATA-01, DATA-02)
+- [ ] 01-02-PLAN.md -- Branded HTML with fetch-parse-validate-render pipeline (DATA-03, DATA-04, DATA-05, VIS-01, VIS-02, DEPLOY-01)
 
 ### Phase 2: Card Rendering + Interactivity
 **Goal**: All project data renders as interactive cards with health bars, version history, priority scores, summary stats, and filter/sort controls
@@ -66,7 +66,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3
+Phases execute in numeric order: 1 -> 2 -> 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
