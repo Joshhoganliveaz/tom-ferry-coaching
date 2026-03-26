@@ -1461,6 +1461,11 @@
           const valB = AUTONOMY_ORDER[b.dataset.autonomy] || 0;
           // Descending: highest first
           return valB - valA;
+        } else if (sortKey === 'score') {
+          const scoreA = parseFloat(a.dataset.score) || 0;
+          const scoreB = parseFloat(b.dataset.score) || 0;
+          // Descending: highest score first
+          return scoreB - scoreA;
         }
         return 0;
       });
@@ -1558,8 +1563,10 @@
             <select id="sort-select">
               <option value="recent">Most Recently Deployed</option>
               <option value="autonomy">Autonomy Level</option>
+              <option value="score">Health Score</option>
               <option value="custom">Custom Order</option>
             </select>
+            <button class="reorder-btn" onclick="toggleEditMode()">Reorder</button>
           </div>
         </div>
         <div class="project-grid">
@@ -1581,9 +1588,6 @@
           sortCards(sortSelect.value);
         });
       }
-
-      // Enable drag-and-drop reordering
-      enableDragAndDrop();
 
       // Apply saved custom order if it exists
       if (localStorage.getItem(STORAGE_KEY)) {
