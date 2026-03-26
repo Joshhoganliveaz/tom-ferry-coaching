@@ -467,6 +467,32 @@
         "servesClients": 5,
         "speedToFinish": 3
       }
+    },
+    {
+      "name": "Tom Ferry Coaching Project Tracker",
+      "slug": "tom-ferry-coaching-project-tracker",
+      "description": "Interactive dashboard tracking all Live AZ Co tech projects with health scores, priority rankings, filters, and sorting",
+      "status": "shipped",
+      "currentVersion": "1.0",
+      "deployedUrl": "https://joshhoganliveaz.github.io/tom-ferry-coaching/",
+      "deployedDate": "2026-03-25",
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "adoption": "josh_only",
+      "autonomy": "fully_independent",
+      "revenueProximity": "internal_only",
+      "versions": [
+        {
+          "version": "1.0",
+          "date": "2026-03-25",
+          "notes": "Interactive dashboard with filter/sort, health bars, priority scores, responsive mobile layout, GitHub Pages deploy"
+        }
+      ],
+      "upNext": null,
+      "priority": null
     }
   ]
 }
