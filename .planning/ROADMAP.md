@@ -44,11 +44,11 @@ Plans:
   3. Summary stats bar at top shows live counts by status and health dimensions, computed dynamically from the data
   4. Clicking filter tabs (All / Shipped / In Progress / Parking Lot) shows only matching cards; sort options reorder visible cards
   5. Version history expands per card showing entries newest-first; "Up Next" box appears only when data exists; priority scores appear only on unshipped projects
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md -- Card rendering with health bars, summary stats, version history, Up Next, and priority scores (CARD-01, CARD-02, CARD-03, CARD-04, CARD-05, NAV-01)
+- [ ] 02-02-PLAN.md -- Filter tabs and sort controls for interactive card navigation (NAV-02, NAV-03)
 
 ### Phase 3: Responsive Polish + Deploy
 **Goal**: The tracker is deployed on GitHub Pages with a responsive layout that works on phones during coaching calls
