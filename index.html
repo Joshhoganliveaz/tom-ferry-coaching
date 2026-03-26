@@ -1075,6 +1075,9 @@
       isEditMode = true;
       savedFilter = currentFilter;
 
+      // Remove any previously attached edit mode listeners
+      detachEditListeners();
+
       const grid = document.querySelector('.project-grid');
       if (!grid) return;
 
@@ -1206,6 +1209,27 @@
 
     // --- Arrow & Drag Handlers ---
 
+    // Stored references to remove listeners when re-entering edit mode
+    let _arrowHandler = null;
+    let _dragDownHandler = null;
+    let _dragMoveHandler = null;
+    let _dragUpHandler = null;
+    let _dragCancelHandler = null;
+
+    /**
+     * Remove previously attached edit mode listeners from the grid.
+     */
+    function detachEditListeners() {
+      const grid = document.querySelector('.project-grid');
+      if (!grid) return;
+      if (_arrowHandler) grid.removeEventListener('click', _arrowHandler);
+      if (_dragDownHandler) grid.removeEventListener('pointerdown', _dragDownHandler);
+      if (_dragMoveHandler) grid.removeEventListener('pointermove', _dragMoveHandler);
+      if (_dragUpHandler) grid.removeEventListener('pointerup', _dragUpHandler);
+      if (_dragCancelHandler) grid.removeEventListener('pointercancel', _dragCancelHandler);
+      _arrowHandler = _dragDownHandler = _dragMoveHandler = _dragUpHandler = _dragCancelHandler = null;
+    }
+
     /**
      * Attach click listeners to arrow buttons in compact rows.
      * Moves rows up/down and updates disabled states.
@@ -1214,7 +1238,7 @@
       const grid = document.querySelector('.project-grid');
       if (!grid) return;
 
-      grid.addEventListener('click', (e) => {
+      _arrowHandler = (e) => {
         const btn = e.target.closest('.arrow-btn');
         if (!btn || btn.classList.contains('disabled')) return;
 
@@ -1229,7 +1253,8 @@
         }
 
         updateArrowStates();
-      });
+      };
+      grid.addEventListener('click', _arrowHandler);
     }
 
     /**
@@ -1307,7 +1332,7 @@
         }
       }
 
-      grid.addEventListener('pointerdown', (e) => {
+      _dragDownHandler = (e) => {
         const handle = e.target.closest('.drag-handle');
         if (!handle) return;
 
@@ -1320,7 +1345,6 @@
         const rect = dragRow.getBoundingClientRect();
         offsetY = e.clientY - rect.top;
 
-        // Create floating clone
         clone = dragRow.cloneNode(true);
         clone.classList.add('drag-clone');
         clone.style.width = rect.width + 'px';
@@ -1330,19 +1354,17 @@
 
         dragRow.classList.add('drag-source');
 
-        // Create indicator element
         indicator = document.createElement('div');
         indicator.classList.add('drop-indicator');
-      });
+      };
 
-      grid.addEventListener('pointermove', (e) => {
+      _dragMoveHandler = (e) => {
         if (!dragRow || !clone) return;
 
         clone.style.top = (e.clientY - offsetY) + 'px';
 
         autoScroll(e.clientY);
 
-        // Find target row and show indicator
         removeIndicator();
         const target = getRowAtPoint(e.clientY);
         if (target) {
@@ -1352,17 +1374,15 @@
             target.row.insertAdjacentElement('afterend', indicator);
           }
         }
-      });
+      };
 
-      grid.addEventListener('pointerup', () => {
+      _dragUpHandler = () => {
         if (!dragRow) return;
 
-        // Move row to indicator position
         if (indicator && indicator.parentNode) {
           indicator.parentNode.insertBefore(dragRow, indicator);
         }
 
-        // Cleanup
         removeIndicator();
         dragRow.classList.remove('drag-source');
         if (clone && clone.parentNode) {
@@ -1376,10 +1396,9 @@
         clone = null;
 
         updateArrowStates();
-      });
+      };
 
-      // Handle pointer leaving the window
-      grid.addEventListener('pointercancel', () => {
+      _dragCancelHandler = () => {
         if (!dragRow) return;
         removeIndicator();
         dragRow.classList.remove('drag-source');
@@ -1392,7 +1411,12 @@
         }
         dragRow = null;
         clone = null;
-      });
+      };
+
+      grid.addEventListener('pointerdown', _dragDownHandler);
+      grid.addEventListener('pointermove', _dragMoveHandler);
+      grid.addEventListener('pointerup', _dragUpHandler);
+      grid.addEventListener('pointercancel', _dragCancelHandler);
     }
 
     // --- Filter & Sort ---
