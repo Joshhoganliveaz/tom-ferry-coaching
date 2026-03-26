@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live AZ Co | Project Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --olive: #5C6B4F;
+      --canyon: #8B6F5C;
+      --gold: #C9953E;
+      --cream: #FAF7F2;
+      --charcoal: #2C2C2C;
+      --font-heading: 'Source Serif 4', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--charcoal);
+      min-height: 100vh;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-heading);
+    }
+
+    header {
+      background: var(--olive);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem 1rem;
+    }
+
+    footer {
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--canyon);
+      font-size: 1.1rem;
+    }
+
+    .error {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #c0392b;
+      font-weight: 600;
+    }
+
+    .project-list {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .project-item {
+      background: white;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .project-item h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .project-item p {
+      color: #555;
+      font-size: 0.95rem;
+      margin-top: 0.35rem;
+    }
+
+    .version-label {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #777;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.15rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .status-shipped {
+      background: var(--olive);
+      color: white;
+    }
+
+    .status-in_progress {
+      background: var(--gold);
+      color: white;
+    }
+
+    .status-parking_lot {
+      background: var(--canyon);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Live AZ Co Project Tracker</h1>
+  </header>
+  <main id="app">
+    <div class="loading">Loading projects...</div>
+  </main>
+  <footer>
+    <span id="timestamp"></span>
+  </footer>
+
+  <script>
+    // --- Constants ---
+    const VALID_STATUSES = ['shipped', 'in_progress', 'parking_lot'];
+    const VALID_ADOPTION = ['none', 'josh_only', 'team_uses', 'client_facing'];
+    const VALID_AUTONOMY = ['josh_dependent', 'needs_guidance', 'fully_independent'];
+    const VALID_REVENUE = ['internal_only', 'client_touch', 'revenue_driver'];
+
+    // --- Utilities ---
+
+    /**
+     * Sanitize dynamic text for safe HTML insertion.
+     * Uses createElement/textContent pattern per CLAUDE.md conventions.
+     */
+    function escapeHtml(str) {
+      if (str == null) return '';
+      const div = document.createElement('div');
+      div.textContent = String(str);
+      return div.innerHTML;
+    }
+
+    // --- Validation ---
+
+    /**
+     * Validate a single project entry, logging warnings to console.
+     * @param {Object} project - The project object to validate
+     * @param {number} index - The index in the projects array
+     */
+    function validateProject(project, index) {
+      const label = project?.name ?? `index ${index}`;
+
+      // Required string fields
+      const requiredStrings = ['name', 'description', 'status'];
+      for (const field of requiredStrings) {
+        if (typeof project?.[field] !== 'string' || project[field].trim() === '') {
+          console.warn(`[Validation] Project ${index} (${label}): missing or empty required field "${field}"`);
+        }
+      }
+
+      // Validate status enum
+      if (project?.status && !VALID_STATUSES.includes(project.status)) {
+        console.warn(`[Validation] Project ${index} (${label}): invalid status "${project.status}". Expected one of: ${VALID_STATUSES.join(', ')}`);
+      }
+
+      // Validate adoption enum (if present)
+      if (project?.adoption != null && !VALID_ADOPTION.includes(project.adoption)) {
+        console.warn(`[Validation] Project ${index} (${label}): invalid adoption "${project.adoption}". Expected one of: ${VALID_ADOPTION.join(', ')}`);
+      }
+
+      // Validate autonomy enum (if present)
+      if (project?.autonomy != null && !VALID_AUTONOMY.includes(project.autonomy)) {
+        console.warn(`[Validation] Project ${index} (${label}): invalid autonomy "${project.autonomy}". Expected one of: ${VALID_AUTONOMY.join(', ')}`);
+      }
+
+      // Validate revenueProximity enum (if present)
+      if (project?.revenueProximity != null && !VALID_REVENUE.includes(project.revenueProximity)) {
+        console.warn(`[Validation] Project ${index} (${label}): invalid revenueProximity "${project.revenueProximity}". Expected one of: ${VALID_REVENUE.join(', ')}`);
+      }
+
+      // Validate versions is array if present
+      if (project?.versions != null && !Array.isArray(project.versions)) {
+        console.warn(`[Validation] Project ${index} (${label}): "versions" should be an array`);
+      }
+
+      // Warn if shipped project has priority scores
+      if (project?.status === 'shipped' && project?.priority != null) {
+        console.warn(`[Validation] Project ${index} (${label}): shipped project should not have priority scores`);
+      }
+    }
+
+    // --- Rendering ---
+
+    /**
+     * Format a status string for display (e.g., "in_progress" -> "In Progress").
+     */
+    function formatStatus(status) {
+      if (!status) return 'Unknown';
+      return status.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    /**
+     * Render the project list into #app.
+     * @param {Object} data - The parsed projects.json data
+     */
+    function renderPage(data) {
+      const app = document.getElementById('app');
+      app.innerHTML = '';
+
+      const container = document.createElement('div');
+      container.className = 'project-list';
+
+      const projects = data?.projects ?? [];
+
+      if (projects.length === 0) {
+        container.innerHTML = '<p class="loading">No projects found.</p>';
+        app.appendChild(container);
+        return;
+      }
+
+      for (const project of projects) {
+        const item = document.createElement('div');
+        item.className = 'project-item';
+
+        const statusClass = VALID_STATUSES.includes(project?.status)
+          ? `status-${project.status}`
+          : '';
+
+        const versionText = project?.currentVersion ?? 'unreleased';
+
+        item.innerHTML = `
+          <h3>
+            ${escapeHtml(project?.name ?? 'Untitled')}
+            <span class="status-badge ${escapeHtml(statusClass)}">${escapeHtml(formatStatus(project?.status))}</span>
+            <span class="version-label">v${escapeHtml(versionText)}</span>
+          </h3>
+          <p>${escapeHtml(project?.description ?? '')}</p>
+        `;
+
+        container.appendChild(item);
+      }
+
+      app.appendChild(container);
+
+      // Store projects on window for Phase 2 access
+      window.__projects = projects;
+    }
+
+    /**
+     * Set the footer timestamp.
+     * @param {string} lastUpdated - The lastUpdated date string from projects.json
+     */
+    function renderFooterTimestamp(lastUpdated) {
+      const el = document.getElementById('timestamp');
+      if (el) {
+        el.textContent = `Data from: ${lastUpdated ?? 'unknown'} | Loaded: ${new Date().toLocaleString()}`;
+      }
+    }
+
+    // --- Main Pipeline ---
+
+    async function init() {
+      try {
+        const res = await fetch(`./projects.json?v=${Date.now()}`);
+        if (!res.ok) {
+          throw new Error(`Failed to load projects.json: ${res.status} ${res.statusText}`);
+        }
+
+        const data = await res.json();
+
+        // Validate each project
+        const projects = data?.projects ?? [];
+        for (let i = 0; i < projects.length; i++) {
+          validateProject(projects[i], i);
+        }
+
+        renderPage(data);
+        renderFooterTimestamp(data?.lastUpdated);
+      } catch (err) {
+        console.error('[Init Error]', err);
+        const app = document.getElementById('app');
+        if (app) {
+          app.innerHTML = `<div class="error">Failed to load project data. ${escapeHtml(err?.message ?? '')}</div>`;
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
