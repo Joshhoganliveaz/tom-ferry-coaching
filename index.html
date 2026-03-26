@@ -530,6 +530,93 @@
         </div>`;
     }
 
+    // --- Conditional Section Renderers ---
+
+    /**
+     * Render expandable version history for a project.
+     * Returns empty string if no versions exist.
+     * @param {Object} project - The project object
+     * @returns {string} HTML string
+     */
+    function renderVersionHistory(project) {
+      if (!Array.isArray(project.versions) || project.versions.length === 0) {
+        return '';
+      }
+
+      // Sort newest-first by date
+      const sorted = [...project.versions].sort((a, b) => {
+        const dateA = a.date || '';
+        const dateB = b.date || '';
+        return dateB.localeCompare(dateA);
+      });
+
+      const entries = sorted.map(v => `
+        <div class="version-entry">
+          <strong>${escapeHtml(v.version)}</strong>
+          <span class="version-date">${escapeHtml(v.date)}</span>
+          <p>${escapeHtml(v.notes)}</p>
+        </div>`).join('');
+
+      return `
+        <details class="version-history card-section">
+          <summary>Version History (${sorted.length})</summary>
+          <div class="version-list">
+            ${entries}
+          </div>
+        </details>`;
+    }
+
+    /**
+     * Render the "Up Next" box for a project.
+     * Returns empty string if no upNext data.
+     * @param {Object} project - The project object
+     * @returns {string} HTML string
+     */
+    function renderUpNext(project) {
+      if (!project.upNext || !project.upNext.version) {
+        return '';
+      }
+
+      return `
+        <div class="up-next card-section">
+          <div class="up-next-title">Up Next: v${escapeHtml(project.upNext.version)}</div>
+          <p>${escapeHtml(project.upNext.notes)}</p>
+        </div>`;
+    }
+
+    /**
+     * Render priority scores for non-shipped projects.
+     * Returns empty string if shipped or no priority data.
+     * @param {Object} project - The project object
+     * @returns {string} HTML string
+     */
+    function renderPriorityScores(project) {
+      if (project.status === 'shipped' || !project.priority) {
+        return '';
+      }
+
+      const p = project.priority;
+      return `
+        <div class="priority-scores card-section">
+          <div class="priority-item">
+            <span class="priority-label">Makes Money</span>
+            <span class="priority-value">${escapeHtml(p.makesMoney)}/5</span>
+          </div>
+          <div class="priority-item">
+            <span class="priority-label">Saves Time</span>
+            <span class="priority-value">${escapeHtml(p.savesTime)}/5</span>
+          </div>
+          <div class="priority-item">
+            <span class="priority-label">Serves Clients</span>
+            <span class="priority-value">${escapeHtml(p.servesClients)}/5</span>
+          </div>
+          <div class="priority-item">
+            <span class="priority-label">Speed to Finish</span>
+            <span class="priority-value">${escapeHtml(p.speedToFinish)}/5</span>
+          </div>
+        </div>`;
+    }
+
     /**
      * Render the project list into #app.
      * @param {Object} data - The parsed projects.json data
