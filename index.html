@@ -461,6 +461,44 @@
       max-width: 90vw;
     }
 
+    /* --- Project Notes --- */
+    .project-notes summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--canyon);
+      font-size: 0.9rem;
+    }
+
+    .project-notes summary:hover {
+      text-decoration: underline;
+    }
+
+    .project-notes textarea {
+      width: 100%;
+      min-height: 80px;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border: 1px solid #e0ddd8;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--charcoal);
+      background: #fdfcfa;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .project-notes textarea:focus {
+      outline: none;
+      border-color: var(--canyon);
+    }
+
+    .notes-hint {
+      font-size: 0.7rem;
+      color: #aaa;
+      margin-top: 0.25rem;
+    }
+
     /* --- Card Section Spacing --- */
     .card-section {
       margin-top: 1rem;
@@ -983,6 +1021,24 @@
     }
 
     /**
+     * Render the collapsible notes section for a project.
+     * Loads saved notes from localStorage.
+     * @param {Object} project - The project object
+     * @returns {string} HTML string
+     */
+    function renderNotes(project) {
+      const slug = project?.slug || '';
+      const saved = localStorage.getItem('projectNotes_' + slug) || '';
+      const hasNotes = saved.trim().length > 0;
+      return `
+        <details class="project-notes card-section"${hasNotes ? ' open' : ''}>
+          <summary>Notes${hasNotes ? ' *' : ''}</summary>
+          <textarea data-notes-slug="${escapeHtml(slug)}" placeholder="Jot down observations for the next version...">${escapeHtml(saved)}</textarea>
+          <div class="notes-hint">Auto-saved to browser</div>
+        </details>`;
+    }
+
+    /**
      * Render a single project card with score circle layout.
      * @param {Object} project - The project object
      * @returns {string} HTML string for the card
@@ -1031,6 +1087,7 @@
           ${renderVersionHistory(project)}
           ${renderUpNext(project)}
           ${renderPriorityScores(project)}
+          ${renderNotes(project)}
         </div>`;
     }
 
@@ -1622,6 +1679,22 @@
           currentSort = 'custom';
         }
       }
+
+      // Auto-save notes on input (delegated listener)
+      app.addEventListener('input', (e) => {
+        const textarea = e.target.closest('textarea[data-notes-slug]');
+        if (!textarea) return;
+        const slug = textarea.dataset.notesSlug;
+        localStorage.setItem('projectNotes_' + slug, textarea.value);
+        // Update the summary indicator
+        const details = textarea.closest('.project-notes');
+        if (details) {
+          const summary = details.querySelector('summary');
+          if (summary) {
+            summary.textContent = textarea.value.trim() ? 'Notes *' : 'Notes';
+          }
+        }
+      });
 
       // Store projects on window for Phase 2 access
       window.__projects = projects;
