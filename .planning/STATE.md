@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-03-26T01:47:48.703Z"
+stopped_at: Completed quick-01 drag-and-drop reordering
+last_updated: "2026-03-26T05:47:16.562Z"
 last_activity: 2026-03-26 -- Completed 03-01 responsive polish and deploy
 progress:
   total_phases: 3
@@ -73,6 +73,7 @@ Recent decisions affecting current work:
 - [Phase 02]: Data attributes on card divs for filtering/sorting without re-rendering
 - [Phase 02]: Inline project data instead of external fetch for zero-dependency loading
 - [Phase 03]: Repository name: tom-ferry-coaching (user-selected, public for GitHub Pages)
+- [Phase quick]: Used HTML5 DnD API for card reordering with localStorage persistence
 
 ### Pending Todos
 
@@ -86,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-26T01:31:50.126Z
-Stopped at: Completed 03-01-PLAN.md
+Last session: 2026-03-26T05:47:16.456Z
+Stopped at: Completed quick-01 drag-and-drop reordering
 Resume file: None
