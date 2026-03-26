@@ -111,33 +111,6 @@
       "accessUrl": null
     },
     {
-      "name": "Tenet Commission Calculator",
-      "slug": "tenet-commission-calculator",
-      "description": "Broker desk commission calculator for TENET Equity FY 2026 with tiered volume tracking across 7 tiers",
-      "status": "shipped",
-      "currentVersion": "1.0",
-      "deployedUrl": null,
-      "deployedDate": null,
-      "stack": [
-        "HTML",
-        "CSS",
-        "JavaScript"
-      ],
-      "adoption": "josh_only",
-      "autonomy": "fully_independent",
-      "revenueProximity": "internal_only",
-      "versions": [
-        {
-          "version": "1.0",
-          "date": "2026-01-15",
-          "notes": "Initial release with 7-tier commission tracking, closed deals and pipeline, localStorage persistence"
-        }
-      ],
-      "upNext": null,
-      "priority": null,
-      "accessUrl": null
-    },
-    {
       "name": "Idea Pipeline",
       "slug": "idea-pipeline",
       "description": "Idea submission and prioritization platform with AI-assisted build plan generation via Claude API",
