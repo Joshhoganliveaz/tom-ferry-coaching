@@ -330,6 +330,57 @@
       background: var(--canyon);
       color: white;
     }
+
+    /* --- Filter & Sort Controls --- */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 900px;
+      margin: 0 auto 1rem;
+      padding: 0 1rem;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .filter-tab {
+      border: 1px solid #ddd;
+      background: white;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+    }
+
+    .filter-tab:hover {
+      border-color: var(--olive);
+    }
+
+    .filter-tab.active {
+      background: var(--olive);
+      color: white;
+      border-color: var(--olive);
+    }
+
+    .sort-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .sort-controls select {
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      font-family: var(--font-body);
+    }
   </style>
 </head>
 <body>
@@ -344,6 +395,10 @@
   </footer>
 
   <script>
+    // --- Filter/Sort State ---
+    let currentFilter = 'all';
+    let currentSort = 'recent';
+
     // --- Constants ---
     const VALID_STATUSES = ['shipped', 'in_progress', 'parking_lot'];
     const VALID_ADOPTION = ['none', 'josh_only', 'team_uses', 'client_facing'];
@@ -661,6 +716,74 @@
         </div>`;
     }
 
+    // --- Filter & Sort ---
+
+    /**
+     * Filter visible cards by status. Hides/shows cards using the .hidden class.
+     * @param {string} status - 'all', 'shipped', 'in_progress', or 'parking_lot'
+     */
+    function filterCards(status) {
+      currentFilter = status;
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        if (status === 'all' || card.dataset.status === status) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      // Update active tab
+      const tabs = document.querySelectorAll('.filter-tab');
+      tabs.forEach(tab => {
+        if (tab.dataset.filter === status) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+    }
+
+    /**
+     * Sort visible cards by the given key. Reorders DOM nodes via appendChild.
+     * @param {string} sortKey - 'recent' (by deployed date) or 'autonomy' (by autonomy level)
+     */
+    function sortCards(sortKey) {
+      currentSort = sortKey;
+      const container = document.querySelector('.project-grid');
+      if (!container) return;
+
+      const cards = Array.from(container.querySelectorAll('.project-card'));
+
+      const AUTONOMY_ORDER = {
+        fully_independent: 3,
+        needs_guidance: 2,
+        josh_dependent: 1
+      };
+
+      cards.sort((a, b) => {
+        if (sortKey === 'recent') {
+          const dateA = a.dataset.deployed || '';
+          const dateB = b.dataset.deployed || '';
+          // Cards with no deployed date sort to bottom
+          if (!dateA && !dateB) return 0;
+          if (!dateA) return 1;
+          if (!dateB) return -1;
+          // Descending: most recent first
+          return dateB.localeCompare(dateA);
+        } else if (sortKey === 'autonomy') {
+          const valA = AUTONOMY_ORDER[a.dataset.autonomy] || 0;
+          const valB = AUTONOMY_ORDER[b.dataset.autonomy] || 0;
+          // Descending: highest first
+          return valB - valA;
+        }
+        return 0;
+      });
+
+      // Re-append in sorted order (moves DOM nodes, does not clone)
+      cards.forEach(card => container.appendChild(card));
+    }
+
     /**
      * Render the full page with summary stats and project card grid.
      * @param {Object} data - The parsed projects.json data
@@ -678,9 +801,40 @@
 
       app.innerHTML = `
         ${renderSummaryStats(projects)}
+        <div class="filter-bar">
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="shipped">Shipped</button>
+            <button class="filter-tab" data-filter="in_progress">In Progress</button>
+            <button class="filter-tab" data-filter="parking_lot">Parking Lot</button>
+          </div>
+          <div class="sort-controls">
+            <label for="sort-select">Sort:</label>
+            <select id="sort-select">
+              <option value="recent">Most Recently Deployed</option>
+              <option value="autonomy">Autonomy Level</option>
+            </select>
+          </div>
+        </div>
         <div class="project-grid">
           ${cards}
         </div>`;
+
+      // Attach filter tab click listeners
+      const filterTabs = app.querySelectorAll('.filter-tab');
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          filterCards(tab.dataset.filter);
+        });
+      });
+
+      // Attach sort dropdown change listener
+      const sortSelect = app.querySelector('#sort-select');
+      if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+          sortCards(sortSelect.value);
+        });
+      }
 
       // Store projects on window for Phase 2 access
       window.__projects = projects;
