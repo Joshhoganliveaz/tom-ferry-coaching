@@ -63,7 +63,7 @@
       ],
       "upNext": {
         "version": "1.3",
-        "notes": "Team-accessible upload flow so Jacqui can generate reports independently"
+        "notes": "[Wave 1 — by April 11] Team-accessible upload flow so Jacqui can generate reports independently"
       },
       "priority": null,
       "accessUrl": null
@@ -105,7 +105,7 @@
       ],
       "upNext": {
         "version": "2.2",
-        "notes": "PDF export polish, multi-property portfolio view"
+        "notes": "[Wave 2 — by May 9] PDF export polish, multi-property portfolio view, public deploy"
       },
       "priority": null,
       "accessUrl": null
@@ -134,7 +134,10 @@
           "notes": "Kanban dashboard, idea submission with Claude parsing, SSE build plan generation, password auth"
         }
       ],
-      "upNext": null,
+      "upNext": {
+        "version": "1.0",
+        "notes": "[Frozen] No further investment until Wave 2 complete (May 9)"
+      },
       "priority": null,
       "accessUrl": null
     },
@@ -163,7 +166,7 @@
       ],
       "upNext": {
         "version": "1.0",
-        "notes": "Batch generation from client list, automated monthly sends via Lofty"
+        "notes": "[Wave 1 — by April 11] Batch generation from client list, text-based sends via Lofty, Jacqui walkthrough"
       },
       "priority": {
         "makesMoney": 2,
@@ -174,14 +177,17 @@
       "accessUrl": null
     },
     {
-      "name": "Transaction Checklist Auto-Builder",
-      "slug": "transaction-checklist-auto-builder",
-      "description": "Generates transaction checklists from contract data, auto-populating deadlines and task assignments",
+      "name": "TC Automation",
+      "slug": "tc-automation",
+      "description": "Full transaction coordinator workflow automation including checklist generation, deadline tracking, contract field extraction, and task assignments",
       "status": "in_progress",
       "currentVersion": "0.3",
       "deployedUrl": null,
       "deployedDate": null,
       "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript",
         "Google Sheets",
         "Apps Script"
       ],
@@ -192,12 +198,12 @@
         {
           "version": "0.3",
           "date": "2026-03-01",
-          "notes": "Prototype with basic contract field extraction and checklist template"
+          "notes": "Prototype with basic contract field extraction, checklist template, and timeline extractor"
         }
       ],
       "upNext": {
         "version": "1.0",
-        "notes": "Full AAR field mapping, Jacqui-ready interface, deadline calculations"
+        "notes": "[Wave 1 — by April 11] Full AAR field mapping, Jacqui-ready interface, deadline calculations"
       },
       "priority": {
         "makesMoney": 4,
@@ -232,7 +238,7 @@
       ],
       "upNext": {
         "version": "1.0",
-        "notes": "MLS data integration, team-accessible interface, PDF export"
+        "notes": "[Wave 3 — by June 6] Ship v1.0 with MLS integration or park it"
       },
       "priority": {
         "makesMoney": 3,
@@ -245,7 +251,7 @@
     {
       "name": "Daily Schedule Dashboard",
       "slug": "daily-schedule-dashboard",
-      "description": "Time-blocked daily schedule tracker with HoBash Family calendar integration and export/import",
+      "description": "Time-blocked daily schedule tracker with calendar integration and export/import",
       "status": "in_progress",
       "currentVersion": "0.8",
       "deployedUrl": null,
@@ -267,7 +273,7 @@
       ],
       "upNext": {
         "version": "1.0",
-        "notes": "GitHub repo, deploy, Jacqui version with her schedule blocks"
+        "notes": "[Wave 3 — by June 6] Decide: ship or cut. Does this earn its keep?"
       },
       "priority": {
         "makesMoney": 5,
@@ -302,7 +308,7 @@
       ],
       "upNext": {
         "version": "1.0",
-        "notes": "Production deploy, Jacqui-accessible dashboard creation flow"
+        "notes": "[Wave 3 — by June 6] Ship to production or park. No more staging limbo"
       },
       "priority": {
         "makesMoney": 1,
@@ -337,7 +343,7 @@
       ],
       "upNext": {
         "version": "1.0",
-        "notes": "Automated outreach triggers, Hospitable API integration"
+        "notes": "[Wave 2 — by May 9] Automated outreach triggers, Hospitable API integration, conversion tracking"
       },
       "priority": {
         "makesMoney": 1,
@@ -348,18 +354,30 @@
       "accessUrl": null
     },
     {
-      "name": "Conversational CRM",
-      "slug": "conversational-crm",
-      "description": "AI-powered CRM that manages client relationships through natural conversation rather than traditional form-based data entry",
-      "status": "parking_lot",
-      "currentVersion": null,
+      "name": "Chat CRM",
+      "slug": "chat-crm",
+      "description": "AI-powered CRM and chatbot platform with multi-agent support for managing client relationships through natural conversation",
+      "status": "in_progress",
+      "currentVersion": "0.2",
       "deployedUrl": null,
       "deployedDate": null,
-      "stack": [],
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Supabase",
+        "Drizzle ORM",
+        "Claude API"
+      ],
       "adoption": "none",
       "autonomy": "josh_dependent",
       "revenueProximity": "client_touch",
-      "versions": [],
+      "versions": [
+        {
+          "version": "0.2",
+          "date": "2026-03-26",
+          "notes": "Multi-agent architecture, data import and embeddings pipeline in progress"
+        }
+      ],
       "upNext": null,
       "priority": {
         "makesMoney": 2,
@@ -370,68 +388,36 @@
       "accessUrl": null
     },
     {
-      "name": "iMessage Automation",
-      "slug": "imessage-automation",
-      "description": "Automated iMessage sequences for client follow-up, appointment reminders, and relationship nurturing",
-      "status": "parking_lot",
-      "currentVersion": null,
-      "deployedUrl": null,
-      "deployedDate": null,
-      "stack": [],
-      "adoption": "none",
-      "autonomy": "josh_dependent",
-      "revenueProximity": "client_touch",
-      "versions": [],
-      "upNext": null,
-      "priority": {
-        "makesMoney": 3,
-        "savesTime": 2,
-        "servesClients": 3,
-        "speedToFinish": 4
-      },
-      "accessUrl": null
-    },
-    {
       "name": "Communication Bot",
       "slug": "communication-bot",
-      "description": "AI bot trained on 53k text messages to handle routine client communications and scheduling",
-      "status": "parking_lot",
-      "currentVersion": null,
+      "description": "AI assistant trained on 53k text messages to auto-respond in Josh's voice, with iMessage pipeline and conversation history",
+      "status": "in_progress",
+      "currentVersion": "0.5",
       "deployedUrl": null,
       "deployedDate": null,
-      "stack": [],
-      "adoption": "none",
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Supabase",
+        "Claude SDK",
+        "Cloudflare Workers"
+      ],
+      "adoption": "josh_only",
       "autonomy": "josh_dependent",
       "revenueProximity": "client_touch",
-      "versions": [],
+      "versions": [
+        {
+          "version": "0.5",
+          "date": "2026-03-25",
+          "notes": "iMessage pipeline, Claude-powered responses trained on text history, conversation logging, Cloudflare deploy"
+        }
+      ],
       "upNext": null,
       "priority": {
         "makesMoney": 3,
         "savesTime": 1,
         "servesClients": 3,
         "speedToFinish": 5
-      },
-      "accessUrl": null
-    },
-    {
-      "name": "Suzie's Role Automation",
-      "slug": "suzie-role-automation",
-      "description": "Automation tools for Suzie's transition from Transaction Coordinator to Partner Agent, handling TC workflows independently",
-      "status": "parking_lot",
-      "currentVersion": null,
-      "deployedUrl": null,
-      "deployedDate": null,
-      "stack": [],
-      "adoption": "none",
-      "autonomy": "josh_dependent",
-      "revenueProximity": "internal_only",
-      "versions": [],
-      "upNext": null,
-      "priority": {
-        "makesMoney": 4,
-        "savesTime": 1,
-        "servesClients": 4,
-        "speedToFinish": 4
       },
       "accessUrl": null
     },
@@ -482,6 +468,255 @@
       ],
       "upNext": null,
       "priority": null,
+      "accessUrl": null
+    },
+    {
+      "name": "Homeowner Journey Map",
+      "slug": "homeowner-journey-map",
+      "description": "Interactive homeowner value discovery journey with comparison tools, analytics tracking, and market data visualization",
+      "status": "in_progress",
+      "currentVersion": "1.0",
+      "deployedUrl": null,
+      "deployedDate": null,
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Supabase",
+        "Zustand",
+        "Tailwind CSS",
+        "Cloudflare Pages"
+      ],
+      "adoption": "josh_only",
+      "autonomy": "josh_dependent",
+      "revenueProximity": "client_touch",
+      "versions": [
+        {
+          "version": "1.0",
+          "date": "2026-03-26",
+          "notes": "Interactive journey with comparison tools, analytics tracking, responsive design"
+        }
+      ],
+      "upNext": null,
+      "priority": {
+        "makesMoney": 2,
+        "savesTime": 4,
+        "servesClients": 1,
+        "speedToFinish": 3
+      },
+      "accessUrl": null
+    },
+    {
+      "name": "STR Management Dashboard",
+      "slug": "str-management-dashboard",
+      "description": "Short-term rental property management dashboard with cleaning tracking, task management, and Obsidian sync",
+      "status": "shipped",
+      "currentVersion": "1.0",
+      "deployedUrl": null,
+      "deployedDate": "2026-03-23",
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Supabase",
+        "Tailwind CSS"
+      ],
+      "adoption": "josh_only",
+      "autonomy": "needs_guidance",
+      "revenueProximity": "internal_only",
+      "versions": [
+        {
+          "version": "1.0",
+          "date": "2026-03-23",
+          "notes": "Property management dashboard with cleaning tracking, task management, Phase 15 complete, UAT passed"
+        }
+      ],
+      "upNext": null,
+      "priority": null,
+      "accessUrl": null
+    },
+    {
+      "name": "Marketing Engine",
+      "slug": "marketing-engine",
+      "description": "Marketing content generation platform with QR code tools and content extraction utilities",
+      "status": "in_progress",
+      "currentVersion": "0.5",
+      "deployedUrl": null,
+      "deployedDate": null,
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Supabase",
+        "Tailwind CSS",
+        "Zod"
+      ],
+      "adoption": "josh_only",
+      "autonomy": "josh_dependent",
+      "revenueProximity": "client_touch",
+      "versions": [
+        {
+          "version": "0.5",
+          "date": "2026-03-21",
+          "notes": "Content generation, QR code tool, upgrade extractor, delete functionality"
+        }
+      ],
+      "upNext": null,
+      "priority": {
+        "makesMoney": 3,
+        "savesTime": 2,
+        "servesClients": 2,
+        "speedToFinish": 3
+      },
+      "accessUrl": null
+    },
+    {
+      "name": "Live AZ Co Website",
+      "slug": "liveaz-website",
+      "description": "Main corporate website for Live AZ Co real estate team",
+      "status": "in_progress",
+      "currentVersion": "1.0",
+      "deployedUrl": null,
+      "deployedDate": null,
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Cloudflare"
+      ],
+      "adoption": "client_facing",
+      "autonomy": "josh_dependent",
+      "revenueProximity": "client_touch",
+      "versions": [
+        {
+          "version": "1.0",
+          "date": "2026-03-24",
+          "notes": "v1.0 archived, cleanup and refinement in progress"
+        }
+      ],
+      "upNext": null,
+      "priority": {
+        "makesMoney": 2,
+        "savesTime": 5,
+        "servesClients": 1,
+        "speedToFinish": 3
+      },
+      "accessUrl": null
+    },
+    {
+      "name": "City Dashboards CDN",
+      "slug": "city-dashboards",
+      "description": "Cloudflare Pages-hosted image CDN serving optimized neighborhood marketing images across all Live AZ Co dashboards",
+      "status": "in_progress",
+      "currentVersion": "0.2",
+      "deployedUrl": null,
+      "deployedDate": null,
+      "stack": [
+        "Node.js",
+        "sharp",
+        "Cloudflare Pages"
+      ],
+      "adoption": "none",
+      "autonomy": "josh_dependent",
+      "revenueProximity": "internal_only",
+      "versions": [
+        {
+          "version": "0.2",
+          "date": "2026-03-07",
+          "notes": "Image optimization pipeline, Phase 02 build pipeline in development"
+        }
+      ],
+      "upNext": null,
+      "priority": {
+        "makesMoney": 5,
+        "savesTime": 3,
+        "servesClients": 3,
+        "speedToFinish": 3
+      },
+      "accessUrl": null
+    },
+    {
+      "name": "Dashboard Template Library",
+      "slug": "dashboard-template",
+      "description": "HTML template library for creating branded homeowner dashboard snapshots with responsive metrics and tabbed layouts",
+      "status": "shipped",
+      "currentVersion": "1.0",
+      "deployedUrl": null,
+      "deployedDate": null,
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "adoption": "josh_only",
+      "autonomy": "fully_independent",
+      "revenueProximity": "internal_only",
+      "versions": [
+        {
+          "version": "1.0",
+          "date": "2026-03-09",
+          "notes": "Established design system with responsive metrics, tabbed layouts, brand colors"
+        }
+      ],
+      "upNext": null,
+      "priority": null,
+      "accessUrl": null
+    },
+    {
+      "name": "LiveAZ Playbooks",
+      "slug": "liveaz-playbooks",
+      "description": "Team playbooks and standard operating procedures reference site for the Live AZ Co team",
+      "status": "shipped",
+      "currentVersion": "1.0",
+      "deployedUrl": null,
+      "deployedDate": null,
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "adoption": "team_uses",
+      "autonomy": "fully_independent",
+      "revenueProximity": "internal_only",
+      "versions": [
+        {
+          "version": "1.0",
+          "date": "2026-03-20",
+          "notes": "Team procedures, workflows, and reference documentation"
+        }
+      ],
+      "upNext": null,
+      "priority": null,
+      "accessUrl": null
+    },
+    {
+      "name": "LiveAZ CRM (Obsidian)",
+      "slug": "liveaz-crm",
+      "description": "CRM with Obsidian knowledge layer for client relationship management with duplicate detection and batch import",
+      "status": "parking_lot",
+      "currentVersion": "0.3",
+      "deployedUrl": null,
+      "deployedDate": null,
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Supabase",
+        "Tailwind CSS"
+      ],
+      "adoption": "none",
+      "autonomy": "josh_dependent",
+      "revenueProximity": "client_touch",
+      "versions": [
+        {
+          "version": "0.3",
+          "date": "2026-03-25",
+          "notes": "Import engine, duplicate detection, batch import. Paused in favor of Chat CRM"
+        }
+      ],
+      "upNext": null,
+      "priority": {
+        "makesMoney": 2,
+        "savesTime": 2,
+        "servesClients": 2,
+        "speedToFinish": 4
+      },
       "accessUrl": null
     }
   ]
