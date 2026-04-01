@@ -6,16 +6,19 @@
   <title>Live AZ Co | Project Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --olive: #5C6B4F;
-      --canyon: #8B6F5C;
-      --gold: #C9953E;
-      --cream: #FAF7F2;
-      --charcoal: #2C2C2C;
-      --font-heading: 'Source Serif 4', Georgia, serif;
-      --font-body: 'DM Sans', system-ui, sans-serif;
+      --void: #0A0A09;
+      --near-black: #131311;
+      --warm-dark: #252420;
+      --stone: #7A756C;
+      --sand: #C4BAA8;
+      --cream: #EDE8DE;
+      --gold: #B08D4E;
+      --font-heading: 'EB Garamond', Georgia, serif;
+      --font-body: 'Jost', system-ui, sans-serif;
+      --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     *, *::before, *::after {
@@ -26,56 +29,85 @@
 
     body {
       font-family: var(--font-body);
-      background: var(--cream);
-      color: var(--charcoal);
+      font-weight: 300;
+      background: var(--void);
+      color: var(--sand);
       min-height: 100vh;
-      line-height: 1.6;
+      line-height: 1.7;
       display: flex;
       flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     h1, h2, h3 {
       font-family: var(--font-heading);
+      font-weight: 400;
     }
 
+    /* --- Header --- */
     header {
-      background: var(--olive);
-      color: white;
-      padding: 2rem 1rem;
+      background: transparent;
+      color: var(--cream);
+      padding: 6rem 1rem 5rem;
       text-align: center;
+    }
+
+    .header-label {
+      font-family: var(--font-body);
+      font-size: 0.5rem;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 1.25rem;
     }
 
     header h1 {
       font-size: 1.75rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: var(--cream);
     }
 
+    /* --- Main --- */
     main {
       flex: 1;
-      padding: 2rem 1rem;
+      padding: 0 1rem 4rem;
     }
 
+    /* --- Footer --- */
     footer {
-      background: var(--charcoal);
-      color: var(--cream);
-      padding: 1rem;
+      background: transparent;
+      color: var(--stone);
+      padding: 4rem 1rem 2rem;
       text-align: center;
-      font-size: 0.85rem;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
     }
 
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* --- Loading / Error --- */
     .loading {
       text-align: center;
       padding: 3rem 1rem;
-      color: var(--canyon);
-      font-size: 1.1rem;
+      color: var(--stone);
+      font-size: 0.85rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
     }
 
     .error {
       text-align: center;
       padding: 3rem 1rem;
-      color: #c0392b;
-      font-weight: 600;
+      color: var(--sand);
+      font-weight: 400;
     }
 
     /* --- Summary Stats Bar --- */
@@ -83,109 +115,334 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.75rem;
+      gap: 0.5rem;
       max-width: 900px;
-      margin: 0 auto 1.5rem auto;
+      margin: 0 auto 3rem auto;
       padding: 0 1rem;
     }
 
     .stat-item {
-      background: white;
-      padding: 0.75rem 1rem;
-      border-radius: 6px;
-      border-left: 4px solid #ccc;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      background: var(--near-black);
+      border: 1px solid var(--warm-dark);
+      padding: 1.25rem 1.5rem;
+      border-radius: 4px;
       min-width: 120px;
       text-align: center;
     }
 
-    .stat-olive { border-left-color: var(--olive); }
-    .stat-gold { border-left-color: var(--gold); }
-    .stat-canyon { border-left-color: var(--canyon); }
-
     .stat-count {
+      font-family: var(--font-heading);
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: 400;
       line-height: 1.2;
-      color: var(--charcoal);
+      color: var(--cream);
     }
 
     .stat-label {
-      font-size: 0.75rem;
-      color: #777;
+      font-size: 0.5rem;
+      font-weight: 400;
+      color: var(--stone);
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.2em;
+      margin-top: 0.35rem;
+    }
+
+    /* --- Filter & Sort Controls --- */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      padding: 0 1rem;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .filter-tab {
+      border: none;
+      background: transparent;
+      padding: 0.25rem 0;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      border-bottom: 1px solid transparent;
+      transition: color 0.6s var(--ease-luxury), border-color 0.6s var(--ease-luxury);
+    }
+
+    .filter-tab:hover {
+      color: var(--sand);
+    }
+
+    .filter-tab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .sort-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--stone);
+    }
+
+    .sort-controls label {
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.5rem;
+      font-weight: 400;
+    }
+
+    .sort-controls select {
+      padding: 0.35rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--warm-dark);
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 300;
+      background: var(--near-black);
+      color: var(--sand);
+      cursor: pointer;
+    }
+
+    .sort-controls select:focus {
+      outline: none;
+      border-color: var(--gold);
     }
 
     /* --- Project Grid --- */
     .project-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: 0.75rem;
       max-width: 900px;
       margin: 0 auto;
       padding: 0 1rem;
     }
 
+    /* --- Project Card --- */
     .project-card {
-      background: white;
+      background: var(--near-black);
       border-radius: 8px;
-      padding: 1.5rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(237, 232, 222, 0.04);
+      padding: 2rem;
+      opacity: 0;
+      animation: cardFadeIn 1.2s var(--ease-luxury) forwards;
     }
+
+    @keyframes cardFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .project-card:nth-child(1) { animation-delay: 0s; }
+    .project-card:nth-child(2) { animation-delay: 0.06s; }
+    .project-card:nth-child(3) { animation-delay: 0.12s; }
+    .project-card:nth-child(4) { animation-delay: 0.18s; }
+    .project-card:nth-child(5) { animation-delay: 0.24s; }
+    .project-card:nth-child(6) { animation-delay: 0.3s; }
+    .project-card:nth-child(7) { animation-delay: 0.36s; }
+    .project-card:nth-child(8) { animation-delay: 0.42s; }
+    .project-card:nth-child(9) { animation-delay: 0.48s; }
+    .project-card:nth-child(10) { animation-delay: 0.54s; }
+    .project-card:nth-child(n+11) { animation-delay: 0.6s; }
 
     .project-card.hidden {
       display: none;
     }
 
     /* --- Card Header --- */
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .card-header-left {
+      flex: 1;
+      min-width: 0;
+    }
+
     .card-header h3 {
-      font-size: 1.15rem;
-      margin-bottom: 0.25rem;
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--cream);
       display: flex;
       align-items: center;
       gap: 0.75rem;
       flex-wrap: wrap;
+      line-height: 1.4;
     }
 
     .card-meta {
-      font-size: 0.85rem;
-      color: #777;
-      margin-top: 0.25rem;
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--stone);
+      margin-top: 0.35rem;
     }
 
     .deploy-link {
-      color: var(--olive);
+      color: var(--gold);
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 400;
+      transition: opacity 0.4s ease;
     }
 
     .deploy-link:hover {
-      text-decoration: underline;
+      opacity: 0.7;
     }
 
     .card-description {
-      color: #555;
-      font-size: 0.95rem;
-      margin-top: 0.5rem;
+      color: var(--stone);
+      font-size: 0.8rem;
+      font-weight: 300;
+      margin-top: 0.75rem;
+      max-width: 480px;
+      line-height: 1.7;
     }
 
+    /* --- Status Badges --- */
+    .status-badge {
+      display: inline-block;
+      padding: 0;
+      border-radius: 0;
+      font-family: var(--font-body);
+      font-size: 0.55rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      background: transparent;
+    }
+
+    .status-shipped {
+      color: #8A9A7C;
+    }
+
+    .status-in_progress {
+      color: var(--gold);
+    }
+
+    .status-parking_lot {
+      color: var(--stone);
+    }
+
+    .version-label {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--stone);
+    }
+
+    /* --- Score Circle --- */
+    .score-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--stone);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.6s var(--ease-luxury);
+    }
+
+    .score-circle .score-value {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 0.8rem;
+    }
+
+    .score-tier-high { border-color: var(--gold); color: var(--gold); }
+    .score-tier-mid { border-color: var(--sand); color: var(--sand); }
+    .score-tier-low { border-color: var(--stone); color: var(--stone); }
+
+    /* --- Stack Tags --- */
+    .stack-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.75rem;
+    }
+
+    .stack-tag {
+      background: var(--warm-dark);
+      color: var(--stone);
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 0.55rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+    }
+
+    /* --- Health Dot Indicators --- */
+    .health-dots {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding-top: 0.75rem;
+      margin-top: 0.75rem;
+      border-top: 1px solid rgba(237, 232, 222, 0.04);
+    }
+
+    .health-dot {
+      font-size: 0.55rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+    }
 
     /* --- Version History --- */
     .version-history summary {
       cursor: pointer;
-      font-weight: 600;
-      color: var(--olive);
-      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--gold);
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      list-style: none;
+    }
+
+    .version-history summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .version-history summary::before {
+      content: '+';
+      display: inline-block;
+      margin-right: 0.5rem;
+      font-size: 0.7rem;
+      transition: transform 0.4s var(--ease-luxury);
+    }
+
+    .version-history[open] summary::before {
+      content: '\2212';
     }
 
     .version-history summary:hover {
-      text-decoration: underline;
+      opacity: 0.7;
     }
 
     .version-list {
-      border-left: 2px solid var(--cream);
-      margin-top: 0.5rem;
+      border-left: 1px solid var(--warm-dark);
+      margin-top: 0.75rem;
       padding-left: 0;
     }
 
@@ -195,165 +452,177 @@
     }
 
     .version-entry strong {
-      font-size: 0.9rem;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--sand);
     }
 
     .version-date {
-      font-size: 0.8rem;
-      color: #999;
+      font-size: 0.65rem;
+      color: var(--stone);
       margin-left: 0.5rem;
+      font-weight: 300;
     }
 
     .version-entry p {
-      font-size: 0.85rem;
-      color: #555;
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--stone);
       margin-top: 0.15rem;
+      line-height: 1.6;
     }
 
     /* --- Up Next Box --- */
     .up-next {
-      border-left: 4px solid var(--gold);
-      background: #fdf8f0;
-      padding: 1rem;
-      border-radius: 0 6px 6px 0;
+      border-left: 1px solid var(--gold);
+      background: transparent;
+      padding: 1rem 1.25rem;
+      border-radius: 0;
     }
 
     .up-next-title {
-      font-weight: 700;
+      font-family: var(--font-body);
+      font-weight: 400;
       color: var(--gold);
-      font-size: 0.95rem;
-      margin-bottom: 0.25rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
     }
 
     .up-next p {
-      font-size: 0.9rem;
-      color: #555;
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: var(--sand);
+      line-height: 1.6;
     }
 
     /* --- Priority Scores --- */
     .priority-scores {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 1.25rem;
     }
 
     .priority-item {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
     }
 
     .priority-label {
-      color: #777;
-      font-size: 0.75rem;
+      color: var(--stone);
+      font-size: 0.5rem;
+      font-weight: 400;
       text-transform: uppercase;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.15em;
     }
 
     .priority-value {
-      font-weight: 700;
-      color: var(--charcoal);
-    }
-
-    /* --- Score Circle --- */
-    .score-circle {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 3px solid var(--canyon);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .score-circle .score-value {
-      font-weight: 700;
+      font-family: var(--font-heading);
+      font-weight: 400;
+      color: var(--cream);
       font-size: 0.85rem;
     }
 
-    .score-tier-olive { border-color: var(--olive); color: var(--olive); }
-    .score-tier-gold { border-color: var(--gold); color: var(--gold); }
-    .score-tier-canyon { border-color: var(--canyon); color: var(--canyon); }
-
-    /* --- Card Header (redesigned for score circle) --- */
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
+    /* --- Project Notes --- */
+    .project-notes summary {
+      cursor: pointer;
+      font-weight: 400;
+      color: var(--stone);
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      list-style: none;
     }
 
-    .card-header-left {
-      flex: 1;
-      min-width: 0;
+    .project-notes summary::-webkit-details-marker {
+      display: none;
     }
 
-    /* --- Stack Tags --- */
-    .stack-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-      margin-top: 0.5rem;
+    .project-notes summary::before {
+      content: '+';
+      display: inline-block;
+      margin-right: 0.5rem;
+      font-size: 0.7rem;
     }
 
-    .stack-tag {
-      background: #f0ede8;
-      color: #666;
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-size: 0.6rem;
+    .project-notes[open] summary::before {
+      content: '\2212';
     }
 
-    /* --- Health Dot Indicators (bottom bar) --- */
-    .health-dots {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      padding-top: 0.5rem;
-      margin-top: 0.5rem;
-      border-top: 1px solid #eee;
+    .project-notes summary:hover {
+      color: var(--sand);
     }
 
-    .health-dot {
-      font-size: 0.65rem;
-      font-weight: 600;
+    .project-notes textarea {
+      width: 100%;
+      min-height: 80px;
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border: 1px solid var(--warm-dark);
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: var(--sand);
+      background: var(--near-black);
+      resize: vertical;
+      line-height: 1.6;
+      transition: border-color 0.6s var(--ease-luxury);
     }
 
-    /* --- Card Hover --- */
-    .project-card {
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    .project-notes textarea:focus {
+      outline: none;
+      border-color: var(--gold);
     }
 
-    @media (hover: hover) {
-      .project-card:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
+    .project-notes textarea::placeholder {
+      color: var(--stone);
+      font-weight: 200;
+    }
+
+    .notes-hint {
+      font-size: 0.55rem;
+      font-weight: 300;
+      color: var(--stone);
+      margin-top: 0.35rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* --- Card Section Spacing --- */
+    .card-section {
+      margin-top: 1.25rem;
     }
 
     /* --- Edit/Reorder Mode --- */
     .reorder-btn {
-      border: 1px solid #ddd;
-      background: white;
+      border: 1px solid var(--warm-dark);
+      background: transparent;
       padding: 0.3rem 0.75rem;
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-body);
-      font-size: 0.85rem;
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: var(--stone);
+      letter-spacing: 0.05em;
       margin-left: 0.5rem;
+      transition: all 0.4s var(--ease-luxury);
     }
 
     .reorder-btn:hover {
-      border-color: var(--olive);
+      border-color: var(--gold);
+      color: var(--sand);
     }
 
     .reorder-btn.active {
-      background: var(--olive);
-      color: white;
-      border-color: var(--olive);
+      background: var(--gold);
+      color: var(--void);
+      border-color: var(--gold);
     }
 
     .controls-disabled {
-      opacity: 0.5;
+      opacity: 0.3;
       pointer-events: none;
     }
 
@@ -362,19 +631,19 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      background: white;
+      background: var(--near-black);
       padding: 0.6rem 0.75rem;
       border-radius: 6px;
-      border: 1px solid #e8e5e0;
+      border: 1px solid var(--warm-dark);
     }
 
     .compact-row.drag-source {
-      opacity: 0.4;
-      border: 2px dashed var(--gold);
+      opacity: 0.3;
+      border: 1px dashed var(--gold);
     }
 
     .drag-handle {
-      color: #bbb;
+      color: var(--stone);
       font-size: 1rem;
       cursor: grab;
       touch-action: none;
@@ -398,14 +667,16 @@
     }
 
     .compact-name {
-      font-weight: 600;
+      font-family: var(--font-heading);
+      font-weight: 400;
       font-size: 0.85rem;
-      color: var(--charcoal);
+      color: var(--cream);
     }
 
     .compact-desc {
-      color: #999;
-      font-size: 0.7rem;
+      color: var(--stone);
+      font-size: 0.65rem;
+      font-weight: 300;
       margin-top: 0.1rem;
       white-space: nowrap;
       overflow: hidden;
@@ -424,29 +695,31 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f5f3ef;
+      background: var(--warm-dark);
       border: none;
       border-radius: 4px;
-      font-size: 0.7rem;
-      color: #888;
+      font-size: 0.6rem;
+      color: var(--stone);
       cursor: pointer;
       font-family: var(--font-body);
+      transition: background 0.3s ease;
     }
 
     .arrow-btn:hover {
-      background: #e8e5e0;
+      background: rgba(176, 141, 78, 0.15);
+      color: var(--sand);
     }
 
     .arrow-btn.disabled {
-      opacity: 0.3;
+      opacity: 0.2;
       pointer-events: none;
     }
 
     /* --- Drag insertion indicator --- */
     .drop-indicator {
-      height: 2px;
+      height: 1px;
       background: var(--gold);
-      border-radius: 1px;
+      border-radius: 0;
       margin: -1px 0;
       pointer-events: none;
     }
@@ -456,168 +729,49 @@
       position: fixed;
       pointer-events: none;
       z-index: 1000;
-      opacity: 0.9;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      opacity: 0.85;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       max-width: 90vw;
     }
 
-    /* --- Project Notes --- */
-    .project-notes summary {
-      cursor: pointer;
-      font-weight: 600;
-      color: var(--canyon);
-      font-size: 0.9rem;
+    /* --- Card Hover --- */
+    .project-card {
+      transition: border-color 2s var(--ease-luxury);
     }
 
-    .project-notes summary:hover {
-      text-decoration: underline;
+    @media (hover: hover) {
+      .project-card:hover {
+        border-color: rgba(237, 232, 222, 0.08);
+      }
     }
-
-    .project-notes textarea {
-      width: 100%;
-      min-height: 80px;
-      margin-top: 0.5rem;
-      padding: 0.5rem;
-      border: 1px solid #e0ddd8;
-      border-radius: 4px;
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-      color: var(--charcoal);
-      background: #fdfcfa;
-      resize: vertical;
-      line-height: 1.5;
-    }
-
-    .project-notes textarea:focus {
-      outline: none;
-      border-color: var(--canyon);
-    }
-
-    .notes-hint {
-      font-size: 0.7rem;
-      color: #aaa;
-      margin-top: 0.25rem;
-    }
-
-    /* --- Card Section Spacing --- */
-    .card-section {
-      margin-top: 1rem;
-    }
-
-    .version-label {
-      font-family: var(--font-body);
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #777;
-    }
-
-    .status-badge {
-      display: inline-block;
-      padding: 0.15rem 0.6rem;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .status-shipped {
-      background: var(--olive);
-      color: white;
-    }
-
-    .status-in_progress {
-      background: var(--gold);
-      color: white;
-    }
-
-    .status-parking_lot {
-      background: var(--canyon);
-      color: white;
-    }
-
-    /* --- Filter & Sort Controls --- */
-    .filter-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      max-width: 900px;
-      margin: 0 auto 1rem;
-      padding: 0 1rem;
-    }
-
-    .filter-tabs {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .filter-tab {
-      border: 1px solid #ddd;
-      background: white;
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      cursor: pointer;
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-    }
-
-    .filter-tab:hover {
-      border-color: var(--olive);
-    }
-
-    .filter-tab.active {
-      background: var(--olive);
-      color: white;
-      border-color: var(--olive);
-    }
-
-    .sort-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-    }
-
-    .sort-controls select {
-      padding: 0.3rem 0.5rem;
-      border-radius: 4px;
-      border: 1px solid #ddd;
-      font-family: var(--font-body);
-    }
-
 
     /* --- Mobile Responsive (480px and below) --- */
     @media (max-width: 480px) {
-      /* Header */
       header {
-        padding: 1.25rem 0.75rem;
+        padding: 3.5rem 0.75rem 3rem;
       }
       header h1 {
         font-size: 1.35rem;
       }
 
-      /* Main content */
       main {
-        padding: 1.25rem 0.5rem;
+        padding: 0 0.5rem 2rem;
       }
 
-      /* Summary stats bar: 2-per-row */
       .summary-stats {
-        gap: 0.5rem;
+        gap: 0.35rem;
         padding: 0 0.5rem;
+        margin-bottom: 2rem;
       }
       .stat-item {
         min-width: 0;
-        flex: 1 1 calc(50% - 0.5rem);
-        padding: 0.5rem 0.75rem;
+        flex: 1 1 calc(50% - 0.35rem);
+        padding: 0.75rem;
       }
       .stat-count {
         font-size: 1.25rem;
       }
 
-      /* Filter bar: stacked layout */
       .filter-bar {
         flex-direction: column;
         align-items: stretch;
@@ -626,27 +780,22 @@
       .filter-tabs {
         flex-wrap: wrap;
         justify-content: center;
-      }
-      .filter-tab {
-        padding: 0.35rem 0.75rem;
-        font-size: 0.8rem;
+        gap: 1rem;
       }
       .sort-controls {
         justify-content: center;
       }
 
-      /* Project grid + cards */
       .project-grid {
         padding: 0 0.5rem;
       }
       .project-card {
-        padding: 1rem;
+        padding: 1.25rem;
       }
       .card-header h3 {
         font-size: 1rem;
       }
 
-      /* Reorder button: own row on mobile */
       .reorder-btn {
         display: block;
         width: 100%;
@@ -655,16 +804,14 @@
         margin-top: 0.5rem;
       }
 
-      /* Compact rows */
       .compact-name {
         font-size: 0.8rem;
       }
 
       .compact-desc {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
       }
 
-      /* Priority scores */
       .priority-scores {
         gap: 0.5rem 0.75rem;
       }
@@ -673,13 +820,15 @@
 </head>
 <body>
   <header>
-    <h1>Live AZ Co Project Tracker</h1>
+    <div class="header-label">Project Tracker</div>
+    <h1>Live AZ Co</h1>
   </header>
   <main id="app">
     <div class="loading">Loading projects...</div>
   </main>
   <footer>
-    <span id="timestamp"></span>
+    <span id="timestamp"></span><br>
+    Josh Hogan &nbsp;|&nbsp; Live AZ Co &nbsp;|&nbsp; <a href="tel:4803692880">(480) 369-2880</a>
   </footer>
 
   <script>
@@ -699,25 +848,25 @@
     const VALID_AUTONOMY = ['josh_dependent', 'needs_guidance', 'fully_independent'];
     const VALID_REVENUE = ['internal_only', 'client_touch', 'revenue_driver'];
 
-    // --- Enum-to-Visual Maps ---
+    // --- Enum-to-Visual Maps (Quiet Luxury palette) ---
 
     const ADOPTION_MAP = {
-      none:          { pct: 0,   label: 'None',          color: 'var(--canyon)' },
-      josh_only:     { pct: 33,  label: 'Josh Only',     color: 'var(--gold)' },
-      team_uses:     { pct: 66,  label: 'Team Uses',     color: 'var(--gold)' },
-      client_facing: { pct: 100, label: 'Client Facing',  color: 'var(--olive)' }
+      none:          { pct: 0,   label: 'None',          color: 'var(--stone)' },
+      josh_only:     { pct: 33,  label: 'Josh Only',     color: 'var(--sand)' },
+      team_uses:     { pct: 66,  label: 'Team Uses',     color: 'var(--sand)' },
+      client_facing: { pct: 100, label: 'Client Facing',  color: 'var(--gold)' }
     };
 
     const AUTONOMY_MAP = {
-      josh_dependent:    { pct: 33,  label: 'Josh Dependent',    color: 'var(--canyon)' },
-      needs_guidance:    { pct: 66,  label: 'Needs Guidance',     color: 'var(--gold)' },
-      fully_independent: { pct: 100, label: 'Fully Independent',  color: 'var(--olive)' }
+      josh_dependent:    { pct: 33,  label: 'Josh Dependent',    color: 'var(--stone)' },
+      needs_guidance:    { pct: 66,  label: 'Needs Guidance',     color: 'var(--sand)' },
+      fully_independent: { pct: 100, label: 'Fully Independent',  color: 'var(--gold)' }
     };
 
     const REVENUE_MAP = {
-      internal_only:  { pct: 33,  label: 'Internal Only',  color: 'var(--canyon)' },
-      client_touch:   { pct: 66,  label: 'Client Touch',   color: 'var(--gold)' },
-      revenue_driver: { pct: 100, label: 'Revenue Driver',  color: 'var(--olive)' }
+      internal_only:  { pct: 33,  label: 'Internal Only',  color: 'var(--stone)' },
+      client_touch:   { pct: 66,  label: 'Client Touch',   color: 'var(--sand)' },
+      revenue_driver: { pct: 100, label: 'Revenue Driver',  color: 'var(--gold)' }
     };
 
     // --- Score Calculation ---
@@ -755,9 +904,9 @@
      * @returns {string} CSS class name
      */
     function scoreTierClass(score) {
-      if (score >= 7.0) return 'score-tier-olive';
-      if (score >= 4.0) return 'score-tier-gold';
-      return 'score-tier-canyon';
+      if (score >= 7.0) return 'score-tier-high';
+      if (score >= 4.0) return 'score-tier-mid';
+      return 'score-tier-low';
     }
 
     // --- Utilities ---
@@ -859,27 +1008,27 @@
       const s = computeStats(projects);
       return `
         <div class="summary-stats">
-          <div class="stat-item stat-olive">
+          <div class="stat-item">
             <div class="stat-count">${s.shipped}</div>
             <div class="stat-label">Shipped</div>
           </div>
-          <div class="stat-item stat-gold">
+          <div class="stat-item">
             <div class="stat-count">${s.inProgress}</div>
             <div class="stat-label">In Progress</div>
           </div>
-          <div class="stat-item stat-canyon">
+          <div class="stat-item">
             <div class="stat-count">${s.parkingLot}</div>
             <div class="stat-label">Parking Lot</div>
           </div>
-          <div class="stat-item stat-olive">
+          <div class="stat-item">
             <div class="stat-count">${s.fullyIndependent}</div>
             <div class="stat-label">Fully Independent</div>
           </div>
-          <div class="stat-item stat-gold">
+          <div class="stat-item">
             <div class="stat-count">${s.joshDependent}</div>
             <div class="stat-label">Josh Dependent</div>
           </div>
-          <div class="stat-item stat-olive">
+          <div class="stat-item">
             <div class="stat-count">${s.clientFacing}</div>
             <div class="stat-label">Client Facing</div>
           </div>
@@ -927,9 +1076,9 @@
       const revenue = REVENUE_MAP[project?.revenueProximity] || { label: 'Unknown', color: '#ccc' };
       return `
         <div class="health-dots card-section">
-          <span class="health-dot" style="color: ${adoption.color};">● ${escapeHtml(adoption.label)}</span>
-          <span class="health-dot" style="color: ${autonomy.color};">● ${escapeHtml(autonomy.label)}</span>
-          <span class="health-dot" style="color: ${revenue.color};">● ${escapeHtml(revenue.label)}</span>
+          <span class="health-dot" style="color: ${adoption.color};">\u25CF ${escapeHtml(adoption.label)}</span>
+          <span class="health-dot" style="color: ${autonomy.color};">\u25CF ${escapeHtml(autonomy.label)}</span>
+          <span class="health-dot" style="color: ${revenue.color};">\u25CF ${escapeHtml(revenue.label)}</span>
         </div>`;
     }
 
@@ -1032,7 +1181,7 @@
       const hasNotes = saved.trim().length > 0;
       return `
         <details class="project-notes card-section"${hasNotes ? ' open' : ''}>
-          <summary>Notes${hasNotes ? ' *' : ''}</summary>
+          <summary>Notes${hasNotes ? ' \u2022' : ''}</summary>
           <textarea data-notes-slug="${escapeHtml(slug)}" placeholder="Jot down observations for the next version...">${escapeHtml(saved)}</textarea>
           <div class="notes-hint">Auto-saved to browser</div>
         </details>`;
@@ -1060,7 +1209,7 @@
       const deployLink = project?.deployedUrl
         ? ` | <a class="deploy-link" href="${escapeHtml(project.deployedUrl)}" target="_blank" rel="noopener">${escapeHtml(project.deployedUrl)}</a>`
         : project?.accessUrl
-          ? ` | <a class="deploy-link" href="${escapeHtml(project.accessUrl)}" target="_blank" rel="noopener">Open Tool ↗</a>`
+          ? ` | <a class="deploy-link" href="${escapeHtml(project.accessUrl)}" target="_blank" rel="noopener">Open Tool \u2197</a>`
           : '';
 
       return `
@@ -1110,17 +1259,17 @@
 
       return `
         <div class="compact-row" data-slug="${escapeHtml(project?.slug || '')}">
-          <span class="drag-handle">⠿</span>
+          <span class="drag-handle">\u2807</span>
           <div class="compact-info">
             <div class="compact-name-row">
               <span class="compact-name">${escapeHtml(project?.name ?? 'Untitled')}</span>
-              <span class="status-badge ${escapeHtml(statusClass)}" style="font-size: 0.6rem; padding: 1px 6px;">${escapeHtml(formatStatus(project?.status))}</span>
+              <span class="status-badge ${escapeHtml(statusClass)}" style="font-size: 0.5rem; padding: 1px 6px;">${escapeHtml(formatStatus(project?.status))}</span>
             </div>
             <div class="compact-desc">${escapeHtml(project?.description ?? '')}</div>
           </div>
           <div class="arrow-buttons">
-            <button class="arrow-btn${upDisabled}" data-dir="up" title="Move up">▲</button>
-            <button class="arrow-btn${downDisabled}" data-dir="down" title="Move down">▼</button>
+            <button class="arrow-btn${upDisabled}" data-dir="up" title="Move up">\u25B2</button>
+            <button class="arrow-btn${downDisabled}" data-dir="down" title="Move down">\u25BC</button>
           </div>
         </div>`;
     }
@@ -1691,7 +1840,7 @@
         if (details) {
           const summary = details.querySelector('summary');
           if (summary) {
-            summary.textContent = textarea.value.trim() ? 'Notes *' : 'Notes';
+            summary.textContent = textarea.value.trim() ? 'Notes \u2022' : 'Notes';
           }
         }
       });
@@ -1712,7 +1861,7 @@
     }
 
     // --- Inline Project Data ---
-    const PROJECT_DATA = {"lastUpdated":"2026-03-26","projects":[{"name":"Contract Summary Template","slug":"contract-summary-template","description":"Auto-generates plain-English contract summaries from AAR purchase contracts for buyer/seller review","status":"shipped","currentVersion":"1.0","deployedUrl":null,"deployedDate":"2025-12-01","stack":["Google Docs","Apps Script"],"adoption":"team_uses","autonomy":"fully_independent","revenueProximity":"client_touch","versions":[{"version":"1.0","date":"2025-12-01","notes":"Initial release with AAR purchase contract parsing and plain-English summary generation"}],"upNext":null,"priority":null,"accessUrl":null},{"name":"CMA Report Generator","slug":"cma-report-generator","description":"Generates real estate review and CMA reports using the StoryBrand SB7 narrative framework from ARMLS MLS data","status":"shipped","currentVersion":"1.2","deployedUrl":"https://realestatereview.onrender.com","deployedDate":"2025-11-15","stack":["Python","Flask","pandas","pdfplumber"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"1.2","date":"2025-11-15","notes":"Equity calculations, market analytics engine, SB7 narrative polish"},{"version":"1.1","date":"2025-09-01","notes":"Comp selection algorithm, geocoding integration"},{"version":"1.0","date":"2025-07-01","notes":"Initial release with ARMLS PDF parsing and basic CMA generation"}],"upNext":{"version":"1.3","notes":"[Wave 1 — by April 11] Team-accessible upload flow so Jacqui can generate reports independently"},"priority":null,"accessUrl":null},{"name":"STR Analyzer","slug":"str-analyzer","description":"Short-term rental investment underwriting calculator with cash-on-cash returns, cost segregation tax savings, and multi-deal modeling","status":"in_progress","currentVersion":"2.1","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Tailwind CSS","Zustand"],"adoption":"client_facing","autonomy":"needs_guidance","revenueProximity":"client_touch","versions":[{"version":"2.1","date":"2026-03-20","notes":"Public investor view with shareable slug URLs"},{"version":"2.0","date":"2026-03-01","notes":"Supabase integration, PDF export, cost segregation with OBBBA 100% bonus depreciation"},{"version":"1.0","date":"2025-10-01","notes":"Initial release with mortgage calculator, amortization, and basic deal analysis"}],"upNext":{"version":"2.2","notes":"[Wave 2 — by May 9] PDF export polish, multi-property portfolio view, public deploy"},"priority":null,"accessUrl":null},{"name":"Idea Pipeline","slug":"idea-pipeline","description":"Idea submission and prioritization platform with AI-assisted build plan generation via Claude API","status":"in_progress","currentVersion":"1.0","deployedUrl":null,"deployedDate":null,"stack":["Next.js","Prisma","PostgreSQL","Claude API"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"internal_only","versions":[{"version":"1.0","date":"2026-02-15","notes":"Kanban dashboard, idea submission with Claude parsing, SSE build plan generation, password auth"}],"upNext":{"version":"1.0","notes":"[Frozen] No further investment until Wave 2 complete (May 9)"},"priority":null,"accessUrl":null},{"name":"Houseversary Batch Dashboards","slug":"houseversary-batch-dashboards","description":"Automated monthly anniversary dashboards for past clients showing home value updates and market insights","status":"shipped","currentVersion":"1.0","deployedUrl":"https://homeowner.liveazco.com/admin","deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.5","date":"2026-03-10","notes":"Dashboard template with home value tracking and market snapshot"}],"upNext":{"version":"1.0","notes":"[Wave 1 — by April 11] Batch generation from client list, text-based sends via Lofty, Jacqui walkthrough"},"priority":{"makesMoney":2,"savesTime":2,"servesClients":1,"speedToFinish":2},"accessUrl":null},{"name":"TC Automation","slug":"tc-automation","description":"Full transaction coordinator workflow automation including checklist generation, deadline tracking, contract field extraction, and task assignments","status":"in_progress","currentVersion":"0.3","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript","Google Sheets","Apps Script"],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"internal_only","versions":[{"version":"0.3","date":"2026-03-01","notes":"Prototype with basic contract field extraction, checklist template, and timeline extractor"}],"upNext":{"version":"1.0","notes":"[Wave 1 — by April 11] Full AAR field mapping, Jacqui-ready interface, deadline calculations"},"priority":{"makesMoney":4,"savesTime":1,"servesClients":3,"speedToFinish":3},"accessUrl":null},{"name":"Appraisal Brief Self-Serve Tool","slug":"appraisal-brief-self-serve","description":"Self-serve tool for agents to generate appraisal briefs with comp data and property highlights","status":"in_progress","currentVersion":"0.2","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.2","date":"2026-02-20","notes":"Initial prototype with comp entry form and brief template"}],"upNext":{"version":"1.0","notes":"[Wave 3 — by June 6] Ship v1.0 with MLS integration or park it"},"priority":{"makesMoney":3,"savesTime":3,"servesClients":2,"speedToFinish":3},"accessUrl":null},{"name":"Daily Schedule Dashboard","slug":"daily-schedule-dashboard","description":"Time-blocked daily schedule tracker with calendar integration and export/import","status":"in_progress","currentVersion":"0.8","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"internal_only","versions":[{"version":"0.8","date":"2026-03-15","notes":"HTML prototype with time blocks, tracker, and export/import functionality"}],"upNext":{"version":"1.0","notes":"[Wave 3 — by June 6] Decide: ship or cut. Does this earn its keep?"},"priority":{"makesMoney":5,"savesTime":2,"servesClients":5,"speedToFinish":1},"accessUrl":null},{"name":"Dashboard Generator Platform","slug":"dashboard-generator","description":"Hybrid platform for generating branded buyer and seller dashboards with live data integration","status":"in_progress","currentVersion":"0.9","deployedUrl":"https://dashboard-generator-staging.josh-hogan-account.workers.dev","deployedDate":null,"stack":["Next.js","Cloudflare Workers","OpenNext"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.9","date":"2026-03-15","notes":"Staging deploy on Cloudflare Workers, buyer/seller dashboard templates"}],"upNext":{"version":"1.0","notes":"[Wave 3 — by June 6] Ship to production or park. No more staging limbo"},"priority":{"makesMoney":1,"savesTime":3,"servesClients":1,"speedToFinish":4},"accessUrl":null},{"name":"Direct Booking Re-Engagement Dashboard","slug":"direct-booking-reengagement","description":"Dashboard tracking 19 past STR guests across 6 properties with return interest for direct booking outreach","status":"in_progress","currentVersion":"0.5","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"revenue_driver","versions":[{"version":"0.5","date":"2026-03-10","notes":"HTML dashboard with guest data, manual_return_interest field, Hospitable sync compatibility"}],"upNext":{"version":"1.0","notes":"[Wave 2 — by May 9] Automated outreach triggers, Hospitable API integration, conversion tracking"},"priority":{"makesMoney":1,"savesTime":4,"servesClients":4,"speedToFinish":2},"accessUrl":null},{"name":"Chat CRM","slug":"chat-crm","description":"AI-powered CRM and chatbot platform with multi-agent support for managing client relationships through natural conversation","status":"in_progress","currentVersion":"0.2","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Drizzle ORM","Claude API"],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.2","date":"2026-03-26","notes":"Multi-agent architecture, data import and embeddings pipeline in progress"}],"upNext":null,"priority":{"makesMoney":2,"savesTime":1,"servesClients":2,"speedToFinish":5},"accessUrl":null},{"name":"Communication Bot","slug":"communication-bot","description":"AI assistant trained on 53k text messages to auto-respond in Josh's voice, with iMessage pipeline and conversation history","status":"in_progress","currentVersion":"0.5","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Claude SDK","Cloudflare Workers"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.5","date":"2026-03-25","notes":"iMessage pipeline, Claude-powered responses trained on text history, conversation logging, Cloudflare deploy"}],"upNext":null,"priority":{"makesMoney":3,"savesTime":1,"servesClients":3,"speedToFinish":5},"accessUrl":null},{"name":"YouTube / B-Roll Pipeline","slug":"youtube-broll-pipeline","description":"Content production pipeline for YouTube videos and B-roll footage with automated editing and publishing workflows","status":"parking_lot","currentVersion":null,"deployedUrl":null,"deployedDate":null,"stack":[],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"revenue_driver","versions":[],"upNext":null,"priority":{"makesMoney":1,"savesTime":3,"servesClients":5,"speedToFinish":3},"accessUrl":null},{"name":"Tom Ferry Coaching Project Tracker","slug":"tom-ferry-coaching-project-tracker","description":"Interactive dashboard tracking all Live AZ Co tech projects with health scores, priority rankings, filters, and sorting","status":"shipped","currentVersion":"1.0","deployedUrl":"https://joshhoganliveaz.github.io/tom-ferry-coaching/","deployedDate":"2026-03-25","stack":["HTML","CSS","JavaScript"],"adoption":"josh_only","autonomy":"fully_independent","revenueProximity":"internal_only","versions":[{"version":"1.0","date":"2026-03-25","notes":"Interactive dashboard with filter/sort, health bars, priority scores, responsive mobile layout, GitHub Pages deploy"}],"upNext":null,"priority":null,"accessUrl":null},{"name":"Homeowner Journey Map","slug":"homeowner-journey-map","description":"Interactive homeowner value discovery journey with comparison tools, analytics tracking, and market data visualization","status":"in_progress","currentVersion":"1.0","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Zustand","Tailwind CSS","Cloudflare Pages"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"1.0","date":"2026-03-26","notes":"Interactive journey with comparison tools, analytics tracking, responsive design"}],"upNext":null,"priority":{"makesMoney":2,"savesTime":4,"servesClients":1,"speedToFinish":3},"accessUrl":null},{"name":"STR Management Dashboard","slug":"str-management-dashboard","description":"Short-term rental property management dashboard with cleaning tracking, task management, and Obsidian sync","status":"shipped","currentVersion":"1.0","deployedUrl":null,"deployedDate":"2026-03-23","stack":["Next.js","TypeScript","Supabase","Tailwind CSS"],"adoption":"josh_only","autonomy":"needs_guidance","revenueProximity":"internal_only","versions":[{"version":"1.0","date":"2026-03-23","notes":"Property management dashboard with cleaning tracking, task management, Phase 15 complete, UAT passed"}],"upNext":null,"priority":null,"accessUrl":null},{"name":"Marketing Engine","slug":"marketing-engine","description":"Marketing content generation platform with QR code tools and content extraction utilities","status":"in_progress","currentVersion":"0.5","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Tailwind CSS","Zod"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.5","date":"2026-03-21","notes":"Content generation, QR code tool, upgrade extractor, delete functionality"}],"upNext":null,"priority":{"makesMoney":3,"savesTime":2,"servesClients":2,"speedToFinish":3},"accessUrl":null},{"name":"Live AZ Co Website","slug":"liveaz-website","description":"Main corporate website for Live AZ Co real estate team","status":"in_progress","currentVersion":"1.0","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Tailwind CSS","Cloudflare"],"adoption":"client_facing","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"1.0","date":"2026-03-24","notes":"v1.0 archived, cleanup and refinement in progress"}],"upNext":null,"priority":{"makesMoney":2,"savesTime":5,"servesClients":1,"speedToFinish":3},"accessUrl":null},{"name":"City Dashboards CDN","slug":"city-dashboards","description":"Cloudflare Pages-hosted image CDN serving optimized neighborhood marketing images across all Live AZ Co dashboards","status":"in_progress","currentVersion":"0.2","deployedUrl":null,"deployedDate":null,"stack":["Node.js","sharp","Cloudflare Pages"],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"internal_only","versions":[{"version":"0.2","date":"2026-03-07","notes":"Image optimization pipeline, Phase 02 build pipeline in development"}],"upNext":null,"priority":{"makesMoney":5,"savesTime":3,"servesClients":3,"speedToFinish":3},"accessUrl":null},{"name":"Dashboard Template Library","slug":"dashboard-template","description":"HTML template library for creating branded homeowner dashboard snapshots with responsive metrics and tabbed layouts","status":"shipped","currentVersion":"1.0","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"josh_only","autonomy":"fully_independent","revenueProximity":"internal_only","versions":[{"version":"1.0","date":"2026-03-09","notes":"Established design system with responsive metrics, tabbed layouts, brand colors"}],"upNext":null,"priority":null,"accessUrl":null},{"name":"LiveAZ Playbooks","slug":"liveaz-playbooks","description":"Team playbooks and standard operating procedures reference site for the Live AZ Co team","status":"shipped","currentVersion":"1.0","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"team_uses","autonomy":"fully_independent","revenueProximity":"internal_only","versions":[{"version":"1.0","date":"2026-03-20","notes":"Team procedures, workflows, and reference documentation"}],"upNext":null,"priority":null,"accessUrl":null},{"name":"LiveAZ CRM (Obsidian)","slug":"liveaz-crm","description":"CRM with Obsidian knowledge layer for client relationship management with duplicate detection and batch import","status":"parking_lot","currentVersion":"0.3","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Tailwind CSS"],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.3","date":"2026-03-25","notes":"Import engine, duplicate detection, batch import. Paused in favor of Chat CRM"}],"upNext":null,"priority":{"makesMoney":2,"savesTime":2,"servesClients":2,"speedToFinish":4},"accessUrl":null}]};
+    const PROJECT_DATA = {"lastUpdated":"2026-03-26","projects":[{"name":"Contract Summary Template","slug":"contract-summary-template","description":"Auto-generates plain-English contract summaries from AAR purchase contracts for buyer/seller review","status":"shipped","currentVersion":"1.0","deployedUrl":null,"deployedDate":"2025-12-01","stack":["Google Docs","Apps Script"],"adoption":"team_uses","autonomy":"fully_independent","revenueProximity":"client_touch","versions":[{"version":"1.0","date":"2025-12-01","notes":"Initial release with AAR purchase contract parsing and plain-English summary generation"}],"upNext":null,"priority":null,"accessUrl":null},{"name":"CMA Report Generator","slug":"cma-report-generator","description":"Generates real estate review and CMA reports using the StoryBrand SB7 narrative framework from ARMLS MLS data","status":"shipped","currentVersion":"1.2","deployedUrl":"https://realestatereview.onrender.com","deployedDate":"2025-11-15","stack":["Python","Flask","pandas","pdfplumber"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"1.2","date":"2025-11-15","notes":"Equity calculations, market analytics engine, SB7 narrative polish"},{"version":"1.1","date":"2025-09-01","notes":"Comp selection algorithm, geocoding integration"},{"version":"1.0","date":"2025-07-01","notes":"Initial release with ARMLS PDF parsing and basic CMA generation"}],"upNext":{"version":"1.3","notes":"[Wave 1 — by April 11] Team-accessible upload flow so Jacqui can generate reports independently"},"priority":null,"accessUrl":null},{"name":"STR Analyzer","slug":"str-analyzer","description":"Short-term rental investment underwriting calculator with cash-on-cash returns, cost segregation tax savings, and multi-deal modeling","status":"in_progress","currentVersion":"2.1","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Tailwind CSS","Zustand"],"adoption":"client_facing","autonomy":"needs_guidance","revenueProximity":"client_touch","versions":[{"version":"2.1","date":"2026-03-20","notes":"Public investor view with shareable slug URLs"},{"version":"2.0","date":"2026-03-01","notes":"Supabase integration, PDF export, cost segregation with OBBBA 100% bonus depreciation"},{"version":"1.0","date":"2025-10-01","notes":"Initial release with mortgage calculator, amortization, and basic deal analysis"}],"upNext":{"version":"2.2","notes":"[Wave 2 — by May 9] PDF export polish, multi-property portfolio view, public deploy"},"priority":null,"accessUrl":null},{"name":"Idea Pipeline","slug":"idea-pipeline","description":"Idea submission and prioritization platform with AI-assisted build plan generation via Claude API","status":"in_progress","currentVersion":"1.0","deployedUrl":null,"deployedDate":null,"stack":["Next.js","Prisma","PostgreSQL","Claude API"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"internal_only","versions":[{"version":"1.0","date":"2026-02-15","notes":"Kanban dashboard, idea submission with Claude parsing, SSE build plan generation, password auth"}],"upNext":{"version":"1.0","notes":"[Frozen] No further investment until Wave 2 complete (May 9)"},"priority":null,"accessUrl":null},{"name":"Houseversary Batch Dashboards","slug":"houseversary-batch-dashboards","description":"Automated monthly anniversary dashboards for past clients showing home value updates and market insights","status":"shipped","currentVersion":"1.0","deployedUrl":"https://homeowner.liveazco.com/admin","deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"team_uses","autonomy":"fully_independent","revenueProximity":"client_touch","versions":[{"version":"1.0","date":"2026-03-28","notes":"Deployed — batch generation, team-accessible, no longer Josh-dependent"},{"version":"0.5","date":"2026-03-10","notes":"Dashboard template with home value tracking and market snapshot"}],"upNext":null,"priority":{"makesMoney":2,"savesTime":2,"servesClients":1,"speedToFinish":2},"accessUrl":null},{"name":"TC Automation","slug":"tc-automation","description":"Full transaction coordinator workflow automation including checklist generation, deadline tracking, contract field extraction, and task assignments","status":"in_progress","currentVersion":"0.3","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript","Google Sheets","Apps Script"],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"internal_only","versions":[{"version":"0.3","date":"2026-03-01","notes":"Prototype with basic contract field extraction, checklist template, and timeline extractor"}],"upNext":{"version":"1.0","notes":"[Wave 1 — by April 11] Full AAR field mapping, Jacqui-ready interface, deadline calculations"},"priority":{"makesMoney":4,"savesTime":1,"servesClients":3,"speedToFinish":3},"accessUrl":null},{"name":"Appraisal Brief Self-Serve Tool","slug":"appraisal-brief-self-serve","description":"Self-serve tool for agents to generate appraisal briefs with comp data and property highlights","status":"in_progress","currentVersion":"0.2","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.2","date":"2026-02-20","notes":"Initial prototype with comp entry form and brief template"}],"upNext":{"version":"1.0","notes":"[Wave 3 — by June 6] Ship v1.0 with MLS integration or park it"},"priority":{"makesMoney":3,"savesTime":3,"servesClients":2,"speedToFinish":3},"accessUrl":null},{"name":"Daily Schedule Dashboard","slug":"daily-schedule-dashboard","description":"Time-blocked daily schedule tracker with calendar integration and export/import","status":"in_progress","currentVersion":"0.8","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"internal_only","versions":[{"version":"0.8","date":"2026-03-15","notes":"HTML prototype with time blocks, tracker, and export/import functionality"}],"upNext":{"version":"1.0","notes":"[Wave 3 — by June 6] Decide: ship or cut. Does this earn its keep?"},"priority":{"makesMoney":5,"savesTime":2,"servesClients":5,"speedToFinish":1},"accessUrl":null},{"name":"Dashboard Generator Platform","slug":"dashboard-generator","description":"Hybrid platform for generating branded buyer and seller dashboards with live data integration","status":"in_progress","currentVersion":"0.9","deployedUrl":"https://dashboard-generator-staging.josh-hogan-account.workers.dev","deployedDate":null,"stack":["Next.js","Cloudflare Workers","OpenNext"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.9","date":"2026-03-15","notes":"Staging deploy on Cloudflare Workers, buyer/seller dashboard templates"}],"upNext":{"version":"1.0","notes":"[Wave 3 — by June 6] Ship to production or park. No more staging limbo"},"priority":{"makesMoney":1,"savesTime":3,"servesClients":1,"speedToFinish":4},"accessUrl":null},{"name":"Direct Booking Re-Engagement Dashboard","slug":"direct-booking-reengagement","description":"Dashboard tracking 19 past STR guests across 6 properties with return interest for direct booking outreach","status":"in_progress","currentVersion":"0.5","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"revenue_driver","versions":[{"version":"0.5","date":"2026-03-10","notes":"HTML dashboard with guest data, manual_return_interest field, Hospitable sync compatibility"}],"upNext":{"version":"1.0","notes":"[Wave 2 — by May 9] Automated outreach triggers, Hospitable API integration, conversion tracking"},"priority":{"makesMoney":1,"savesTime":4,"servesClients":4,"speedToFinish":2},"accessUrl":null},{"name":"Chat CRM","slug":"chat-crm","description":"AI-powered CRM and chatbot platform with multi-agent support for managing client relationships through natural conversation","status":"in_progress","currentVersion":"0.2","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Drizzle ORM","Claude API"],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.2","date":"2026-03-26","notes":"Multi-agent architecture, data import and embeddings pipeline in progress"}],"upNext":null,"priority":{"makesMoney":2,"savesTime":1,"servesClients":2,"speedToFinish":5},"accessUrl":null},{"name":"Communication Bot","slug":"communication-bot","description":"AI assistant trained on 53k text messages to auto-respond in Josh's voice, with iMessage pipeline and conversation history","status":"in_progress","currentVersion":"0.5","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Claude SDK","Cloudflare Workers"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.5","date":"2026-03-25","notes":"iMessage pipeline, Claude-powered responses trained on text history, conversation logging, Cloudflare deploy"}],"upNext":null,"priority":{"makesMoney":3,"savesTime":1,"servesClients":3,"speedToFinish":5},"accessUrl":null},{"name":"YouTube / B-Roll Pipeline","slug":"youtube-broll-pipeline","description":"Content production pipeline for YouTube videos and B-roll footage with automated editing and publishing workflows","status":"parking_lot","currentVersion":null,"deployedUrl":null,"deployedDate":null,"stack":[],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"revenue_driver","versions":[],"upNext":null,"priority":{"makesMoney":1,"savesTime":3,"servesClients":5,"speedToFinish":3},"accessUrl":null},{"name":"Tom Ferry Coaching Project Tracker","slug":"tom-ferry-coaching-project-tracker","description":"Interactive dashboard tracking all Live AZ Co tech projects with health scores, priority rankings, filters, and sorting","status":"shipped","currentVersion":"1.0","deployedUrl":"https://joshhoganliveaz.github.io/tom-ferry-coaching/","deployedDate":"2026-03-25","stack":["HTML","CSS","JavaScript"],"adoption":"josh_only","autonomy":"fully_independent","revenueProximity":"internal_only","versions":[{"version":"1.0","date":"2026-03-25","notes":"Interactive dashboard with filter/sort, health bars, priority scores, responsive mobile layout, GitHub Pages deploy"}],"upNext":null,"priority":null,"accessUrl":null},{"name":"Homeowner Journey Map","slug":"homeowner-journey-map","description":"Interactive homeowner value discovery journey with comparison tools, analytics tracking, and market data visualization","status":"in_progress","currentVersion":"1.0","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Zustand","Tailwind CSS","Cloudflare Pages"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"1.0","date":"2026-03-26","notes":"Interactive journey with comparison tools, analytics tracking, responsive design"}],"upNext":null,"priority":{"makesMoney":2,"savesTime":4,"servesClients":1,"speedToFinish":3},"accessUrl":null},{"name":"STR Management Dashboard","slug":"str-management-dashboard","description":"Short-term rental property management dashboard with cleaning tracking, task management, and Obsidian sync","status":"shipped","currentVersion":"1.0","deployedUrl":null,"deployedDate":"2026-03-23","stack":["Next.js","TypeScript","Supabase","Tailwind CSS"],"adoption":"josh_only","autonomy":"needs_guidance","revenueProximity":"internal_only","versions":[{"version":"1.0","date":"2026-03-23","notes":"Property management dashboard with cleaning tracking, task management, Phase 15 complete, UAT passed"}],"upNext":null,"priority":null,"accessUrl":null},{"name":"Marketing Engine","slug":"marketing-engine","description":"Marketing content generation platform with QR code tools and content extraction utilities","status":"in_progress","currentVersion":"0.5","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Tailwind CSS","Zod"],"adoption":"josh_only","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.5","date":"2026-03-21","notes":"Content generation, QR code tool, upgrade extractor, delete functionality"}],"upNext":null,"priority":{"makesMoney":3,"savesTime":2,"servesClients":2,"speedToFinish":3},"accessUrl":null},{"name":"Live AZ Co Website","slug":"liveaz-website","description":"Main corporate website for Live AZ Co real estate team","status":"in_progress","currentVersion":"1.0","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Tailwind CSS","Cloudflare"],"adoption":"client_facing","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"1.0","date":"2026-03-24","notes":"v1.0 archived, cleanup and refinement in progress"}],"upNext":null,"priority":{"makesMoney":2,"savesTime":5,"servesClients":1,"speedToFinish":3},"accessUrl":null},{"name":"City Dashboards CDN","slug":"city-dashboards","description":"Cloudflare Pages-hosted image CDN serving optimized neighborhood marketing images across all Live AZ Co dashboards","status":"in_progress","currentVersion":"0.2","deployedUrl":null,"deployedDate":null,"stack":["Node.js","sharp","Cloudflare Pages"],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"internal_only","versions":[{"version":"0.2","date":"2026-03-07","notes":"Image optimization pipeline, Phase 02 build pipeline in development"}],"upNext":null,"priority":{"makesMoney":5,"savesTime":3,"servesClients":3,"speedToFinish":3},"accessUrl":null},{"name":"Dashboard Template Library","slug":"dashboard-template","description":"HTML template library for creating branded homeowner dashboard snapshots with responsive metrics and tabbed layouts","status":"shipped","currentVersion":"1.0","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"josh_only","autonomy":"fully_independent","revenueProximity":"internal_only","versions":[{"version":"1.0","date":"2026-03-09","notes":"Established design system with responsive metrics, tabbed layouts, brand colors"}],"upNext":null,"priority":null,"accessUrl":null},{"name":"LiveAZ Playbooks","slug":"liveaz-playbooks","description":"Team playbooks and standard operating procedures reference site for the Live AZ Co team","status":"shipped","currentVersion":"1.0","deployedUrl":null,"deployedDate":null,"stack":["HTML","CSS","JavaScript"],"adoption":"team_uses","autonomy":"fully_independent","revenueProximity":"internal_only","versions":[{"version":"1.0","date":"2026-03-20","notes":"Team procedures, workflows, and reference documentation"}],"upNext":null,"priority":null,"accessUrl":null},{"name":"LiveAZ CRM (Obsidian)","slug":"liveaz-crm","description":"CRM with Obsidian knowledge layer for client relationship management with duplicate detection and batch import","status":"parking_lot","currentVersion":"0.3","deployedUrl":null,"deployedDate":null,"stack":["Next.js","TypeScript","Supabase","Tailwind CSS"],"adoption":"none","autonomy":"josh_dependent","revenueProximity":"client_touch","versions":[{"version":"0.3","date":"2026-03-25","notes":"Import engine, duplicate detection, batch import. Paused in favor of Chat CRM"}],"upNext":null,"priority":{"makesMoney":2,"savesTime":2,"servesClients":2,"speedToFinish":4},"accessUrl":null}]};
 
     // --- Main Pipeline ---
 
