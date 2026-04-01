@@ -1401,10 +1401,7 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(slugOrder));
       currentOrder = slugOrder;
 
-      // Re-render full cards in saved order
-      const projects = window.__projects || [];
-      const projectMap = {};
-      projects.forEach(p => { projectMap[p.slug] = p; });
+      // Re-render full cards in saved order (reuse projects/projectMap from above)
 
       const orderedCards = [];
       slugOrder.forEach(slug => {
